@@ -1,0 +1,15 @@
+package demo;
+
+public class DataTypes {
+
+	public static void main(String[] args) {
+		
+		int i=10;
+		double d = 20.5;
+		char alphabet = 'a';
+		boolean b = false;
+		
+
+	}
+
+}

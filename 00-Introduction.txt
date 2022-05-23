@@ -1,0 +1,48 @@
+Testing : to check whether application is working as per customer requirement
+
+Regression Testing: multiple teams work in a project , if we have developer they r responsible for developing software - dev perform integration . unit testing
+	tester will test the functionality , dev gives build and tester will install and test it in test environment
+	dev will not do all functionlities in a single , one version may have some functionality , some will be in other
+	if some defects raised , dev will add new features and fix the defects raised in previous build , bug fixes
+	everytime a new build will be coming , in every cycle it will be going
+
+	once we get new build , verify the testcases reported with defects , also new test cases and do regression testing
+	to check if something is whteher impacted due to new build , thus we have to run all testcases to make sure no functionality
+	which is working previously is working fine
+
+	thus we have to do this regression testing , using automated testcases
+
+Retesting : executing same test case , same steps doing repetitively
+if done manually a lot of work,and takes much time
+Positive scenarios and negative scenarios
+
+lets see how we can overcome these challenges
+how automation testing overcome manual testing challneges
+if we do manual testing we have to verify each step , and perform them in application
+
+if we automate our testcase , each and every step must be communicated to tool that will execute our testcase
+as soon as we get a new build we can execute testcase automatically
+
+Why selenium is required?
+Selenium is a automation tool , web based automation tool
+Selenium can automate only web based apps , which ever can run in browser , free tool , selenium WebDriver[is what to be used],RC[deprecated], Selenium IDE[record playback]
+
+Advantages:
+1.open source
+2.supports multiple OS
+3.supports multiple browsers
+4.supports multiple langauges - java ,python , C# ,ruby [32 minutes]
+5.Integrate 3rd party tools: Apache POI , Sikuli , Auto IT , Extent Reports
+
+Limitations:
+1.cannot support windows based applications[AutoIT, sikuli]
+all software applications are 3 kinds - web based , mobile , window based applications
+2.Reporting not supported [TestNG,ExtentReports]
+3.cannot support excel files [Apache POI]
+4.graphs
+
+Selenium Versions:
+selenium 1.x --> IDE[firefox],RC ,Grid
+selenium 2.x --> IDE[firefox],WebDriver,Grid
+selenium 3.x --> IDE[chrome,firefox],WebDriver,Grid
+

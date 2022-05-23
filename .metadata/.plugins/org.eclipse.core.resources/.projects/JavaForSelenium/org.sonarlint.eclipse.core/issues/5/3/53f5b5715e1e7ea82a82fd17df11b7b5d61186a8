@@ -1,0 +1,44 @@
+
+o	java:S106"9Replace this use of System.out or System.err by a logger.(ÿ’‘Îıÿÿÿÿ8ş ä0H>RMAJORZ
+CODE_SMELL
+j	java:S106"9Replace this use of System.out or System.err by a logger.(­ –8ş ä0H=RMAJORZ
+CODE_SMELL
+j	java:S106"9Replace this use of System.out or System.err by a logger.(œîˆŠ8„—ä0H;RMAJORZ
+CODE_SMELL
+i
+java:S2589""7Remove this expression which always evaluates to "true"(ÏæäÉ8óœ±ä0HGRMAJORZ
+CODE_SMELL
+j	java:S106"9Replace this use of System.out or System.err by a logger.(áÌôÙ8ş ä0H?RMAJORZ
+CODE_SMELL
+o	java:S106"9Replace this use of System.out or System.err by a logger.(İ¹æüÿÿÿÿ8å×¥ä0HCRMAJORZ
+CODE_SMELL
+j	java:S106"9Replace this use of System.out or System.err by a logger.(öÿ‚8Ğğ¦ä0HERMAJORZ
+CODE_SMELL
+j	java:S106#"9Replace this use of System.out or System.err by a logger.(éºƒù8óœ±ä0HORMAJORZ
+CODE_SMELL
+o	java:S106!"9Replace this use of System.out or System.err by a logger.(ö°ğıÿÿÿÿ8óœ±ä0HMRMAJORZ
+CODE_SMELL
+o	java:S106"9Replace this use of System.out or System.err by a logger.(Ñò§†úÿÿÿÿ8Ğğ¦ä0HDRMAJORZ
+CODE_SMELL
+r	java:S125"<This block of commented-out lines of code should be removed.(ŞÔï¹üÿÿÿÿ8¾Ï«ä0HFRMAJORZ
+CODE_SMELL
+j	java:S106""9Replace this use of System.out or System.err by a logger.(ÏæäÉ8óœ±ä0HNRMAJORZ
+CODE_SMELL
+j	java:S106"9Replace this use of System.out or System.err by a logger.(»„Á8å×¥ä0HARMAJORZ
+CODE_SMELL
+o	java:S106"9Replace this use of System.out or System.err by a logger.(Ë®ïüÿÿÿÿ8å×¥ä0HBRMAJORZ
+CODE_SMELL
+n
+java:S2589!"7Remove this expression which always evaluates to "true"(ö°ğıÿÿÿÿ8óœ±ä0HJRMAJORZ
+CODE_SMELL
+o	java:S106"9Replace this use of System.out or System.err by a logger.(˜ÿ¤ûÿÿÿÿ8ş ä0H<RMAJORZ
+CODE_SMELL
+o	java:S106&"9Replace this use of System.out or System.err by a logger.(ƒİõÆûÿÿÿÿ8©µ´ä0HURMAJORZ
+CODE_SMELL
+o	java:S106'"9Replace this use of System.out or System.err by a logger.(ù¢ëÃşÿÿÿÿ8µä0H[RMAJORZ
+CODE_SMELL
+o	java:S106"9Replace this use of System.out or System.err by a logger.(†Á¸ÿÿÿÿÿ8å×¥ä0H@RMAJORZ
+CODE_SMELL
+l
+java:S1854'"5Remove this useless assignment to local variable "a".(ù¢ëÃşÿÿÿÿ8µä0HZRMAJORZ
+CODE_SMELL

@@ -1,0 +1,23 @@
+package demo;
+
+import java.util.Scanner;
+
+public class SayHello {
+	Scanner sc = new Scanner(System.in);
+	public  void greet() {
+
+		System.out.println("Enter Your name");
+		String name = sc.nextLine();
+		System.out.println("Hello " + name);
+	}
+	
+	public static void sum() {
+		
+	}
+
+	public static void main(String[] args) {
+		SayHello obj = new SayHello();
+		obj.greet();
+	}
+
+}
