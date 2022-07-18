@@ -1,0 +1,11 @@
+package org.selenium.pom.pages;
+
+import org.openqa.selenium.WebDriver;
+
+public class StorePage extends BasePage{
+
+	public StorePage(WebDriver driver) {
+		// TODO Auto-generated constructor stub
+	}
+
+}

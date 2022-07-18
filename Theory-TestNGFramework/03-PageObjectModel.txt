@@ -1,0 +1,333 @@
+Page Object Model Design 
+Each page is represented by a class
+Contains UI element definitions and methods for user actions
+Fluent Unterface and builder pattern
+
+Advantages:
+Encapsulation
+Some level of SRP - class should change for only one reason
+Reusability
+Readibility
+Low maintainence
+
+Thumb rules:
+Good names
+Private variables
+no assertion (except for asserting page title)
+No other task other than user action
+Avoid bulky page Objects
+
+
+
+When we see a website like amazon , we have the top navbar common in all pages
+then we create a seperate component of it 
+
+******************************************************************************************************************************************************
+Create a BaseTest and use DriverManager
+
+
+instead of writing the browser invocation code in all testcases , create a seperate test for that using TestNG beforemethod aftermethod
+
+
+create a package , name it pom - inside create a class BaseTest
+create a package , inside pom package name it factory - inside create a class DriverManager
+
+public class BaseTest {
+
+	private WebDriver driver;
+
+	@BeforeMethod
+	public void startDriver() {
+		driver = new DriverManager().initializeDriver();
+	}
+
+	@AfterMethod
+	public void quitDriver() {
+		driver.quit();
+	}
+}
+
+
+public class DriverManager {
+
+	public WebDriver initializeDriver() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		return driver;
+	}
+}
+
+
+******************************************************************************************************************************************************
+Create Base Page:
+
+inside pom package , create a package base - move the BaseTest class inside it
+inside base package , create another class - BasePage
+
+public class BasePage {
+
+	private WebDriver driver;
+	
+	public BasePage(WebDriver driver) {
+		this.driver = driver;
+	}
+}
+
+******************************************************************************************************************************************************
+inside pom package , create a package - pages
+
+create a class HomePage , extend the BasePage and define a constructor
+
+
+public class HomePage extends BasePage {
+
+	public HomePage(WebDriver driver) {
+		super(driver);
+	}
+
+	private final By storemenuLink = By.cssSelector("#menu-item-1227 > a");
+	
+	public void clickStoreMenuLink() {
+		driver.findElement(storemenuLink).click();
+	}
+}
+
+
+
+******************************************************************************************************************************************************
+Fluent Interface:
+Whenever we know that on click on a certain link , we will go to a new page then we can return that page object
+
+	public StorePage clickStoreMenuLink() {
+		driver.findElement(storemenuLink).click();
+		return new StorePage(driver); ------------------------------------------------------------>Fluent Interface
+	}
+
+This leads to tight coupling between classes
+
+
+instead we can create object of that class , where ever required and use it - u can figure out what to be used based on need
+******************************************************************************************************************************************************
+By using Fluent Interface
+
+inside test method we write as below
+
+		HomePage homePage = new HomePage(driver);
+		StorePage storePage = homePage.clickStoreMenuLink(); // no need of explicitly creating object of the next page class because of FluentInterface
+
+if we are not using FluentInterface then we must explicitly create object
+
+HomePage homePage = new HomePage(driver);
+homePage.clickStoreMenuLink();
+StorePage storePage = new StorePage(driver);//thus no strong coupling between page classes
+
+
+
+create StorePage class
+
+public class StorePage extends BasePage{
+
+	public StorePage(WebDriver driver) {
+		super(driver);
+	}
+	
+	private final By searchFld = By.id("woocommerce-product-search-field-0");
+	private final By searchBtn = By.cssSelector("button[value='Search']");
+	private final By title = By.cssSelector(".woocommerce-products-header__title.page-title");
+	private final By addToCartBtn = By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']");
+	
+	public void enterTextInSearchFld(String txt) {
+		driver.findElement(searchFld).sendKeys(txt);
+	}
+
+	public void clickSearchBtn() {
+		driver.findElement(searchBtn).click();
+	}
+	
+	public String getTitle() {
+		return driver.findElement(title).getText();
+	}
+	
+	public void clickAddToCartBtn() {
+		driver.findElement(addToCartBtn).click();
+	}
+}
+
+
+and modify the test method
+
+		HomePage homePage = new HomePage(driver);
+		StorePage storePage = homePage.clickStoreMenuLink();
+		storePage.enterTextInSearchFld("Blue");
+		storePage.clickSearchBtn();
+		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
+		storePage.clickAddToCartBtn();
+******************************************************************************************************************************************************
+Builder Pattern:
+
+
+storePage.enterTextInSearchFld("Blue");
+		storePage.clickSearchBtn();
+		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
+		storePage.clickAddToCartBtn();
+
+in all these above steps we are on the same webpage , instead of calling object of each element , we can chain these methods using Builder pattern
+modify the page object class of StorePage as below
+
+return each method , the same class object
+
+
+public class StorePage extends BasePage{
+
+	public StorePage(WebDriver driver) {
+		super(driver);
+	}
+	
+	private final By searchFld = By.id("woocommerce-product-search-field-0");
+	private final By searchBtn = By.cssSelector("button[value='Search']");
+	private final By title = By.cssSelector(".woocommerce-products-header__title.page-title");
+	private final By addToCartBtn = By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']");
+	
+	public StorePage enterTextInSearchFld(String txt) {
+		driver.findElement(searchFld).sendKeys(txt);
+		return this;
+	}
+
+	public StorePage clickSearchBtn() {
+		driver.findElement(searchBtn).click();
+		return this;
+	}
+	
+	public String getTitle() {
+		return driver.findElement(title).getText();
+		
+	}
+	
+	public void clickAddToCartBtn() {
+		driver.findElement(addToCartBtn).click();
+	}
+}
+
+
+
+		storePage.
+				enterTextInSearchFld("Blue").	
+						clickSearchBtn();
+		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
+		storePage.clickAddToCartBtn();
+
+
+******************************************************************************************************************************************************
+Functional vs Strucural Page Object:
+
+this is structural page object
+storePage.
+				enterTextInSearchFld("Blue").	
+						clickSearchBtn();
+
+that is for every ui action , we have created a seperate method - Structural Page Object
+
+
+Another method is Functional Page Object:
+that is instead of creating method for each element , we can create methods that represent a functionality
+
+
+	/*
+	public StorePage enterTextInSearchFld(String txt) {
+		driver.findElement(searchFld).sendKeys(txt);
+		return this;
+	}
+
+	public StorePage clickSearchBtn() {
+		driver.findElement(searchBtn).click();
+		return this;
+	}
+	*/
+	
+	public StorePage search(String txt) {
+		driver.findElement(searchFld).sendKeys(txt);
+		driver.findElement(searchBtn).click();
+		return this;
+	}
+
+
+		storePage.search("Blue");
+//		storePage.
+//				enterTextInSearchFld("Blue").	
+//						clickSearchBtn();
+
+
+we can also use both
+
+
+	public StorePage enterTextInSearchFld(String txt) {
+		driver.findElement(searchFld).sendKeys(txt);
+		return this;
+	}
+
+	public StorePage clickSearchBtn() {
+		driver.findElement(searchBtn).click();
+		return this;
+	}
+	
+	
+	public StorePage search(String txt) {
+		enterTextInSearchFld(txt).clickSearchBtn();
+		return this;
+	}
+******************************************************************************************************************************************************
+how to handle dynamic UI Element:
+
+When we have a dynamically changing locator , instead of defining it as instance variable in the page object class
+define it inside the method
+
+
+private final By addToCartBtn = By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']");
+the above is a dynamic element , if we hard code it will only work with Blue Shoes instead we use it by defining inside a method
+
+
+	public void clickAddToCartBtn(String productName) {
+	By addToCartBtn = By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
+		driver.findElement(addToCartBtn).click();
+	}
+
+
+if we need the same element at multiple places in page object class then 
+
+	private By getAddToCartBtnElement(String productName) {
+		return By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
+	}
+
+	public void clickAddToCartBtn(String productName) {
+		By addToCartBtn = getAddToCartBtnElement(productName);
+		driver.findElement(addToCartBtn).click();
+	}
+
+
+******************************************************************************************************************************************************
+
+
+
+******************************************************************************************************************************************************
+
+
+******************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+******************************************************************************************************************************************************
+
+
+
+******************************************************************************************************************************************************
+
+
+******************************************************************************************************************************************************

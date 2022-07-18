@@ -1,0 +1,66 @@
+java jdk:8/11
+IDE:Eclipse/IntelliJ
+Selenium:3.141/4
+TestNG:7.4.0
+Build Automation Tool: Maven
+
+
+Create a maven project
+add dependencies
+
+selenium java
+<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.1.4</version>
+</dependency>
+
+testng
+<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.4.0</version>
+    <scope>compile</scope>         -------->change scope to compile from test
+</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.2.1</version>
+		</dependency>
+
+install testng plugin inside eclipse
+
+under src/test/java - create a package ---> org.selenium
+
+inside org.selenium ,create a class MyFirstTestCase
+
+
+package org.selenium;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class MyFirstTestCase {
+
+	@Test
+	public void dummyTest() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+	}
+}
+
+
+
+
+
+
+Add SelectorsHub extension to chrome
+
+

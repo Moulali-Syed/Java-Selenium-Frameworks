@@ -1,0 +1,19 @@
+package org.selenium.pom;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+public class BaseTest {
+
+	private WebDriver driver;
+	@BeforeMethod
+	public void startDriver() {
+		
+	}
+	
+	@AfterMethod
+	public void quitDriver() {
+		
+	}
+}

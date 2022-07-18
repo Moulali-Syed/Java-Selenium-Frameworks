@@ -1,0 +1,7 @@
+package org.selenium.pom.pages;
+
+import org.selenium.pom.base.BasePage;
+
+public class HomePage extends BasePage {
+
+}

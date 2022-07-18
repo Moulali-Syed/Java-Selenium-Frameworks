@@ -1,0 +1,151 @@
+Testcase1:
+
+GuestCheckOutUsingDirectBankTransfer
+
+Navigate to store
+Search with term Blue
+Add Blue Shoes to Cart
+Checkout
+
+
+Testcase2:
+Login And checkout using Direct Bank Transfer
+
+Navigate to store
+Search with term Blue
+Add Blue Shoes to Cart
+Login
+Checkout
+
+demouser987 - user, demouser987@gmail.com , password - demouser987
+
+Testcase1:
+package org.selenium;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class MyFirstTestCase {
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+
+		// website
+		driver.get("https://askomdch.com/");
+		driver.manage().window().maximize();
+
+		driver.findElement(By.cssSelector("#menu-item-1227 > a")).click();
+		driver.findElement(By.id("woocommerce-product-search-field-0")).sendKeys("Blue");
+		driver.findElement(By.cssSelector("button[value='Search']")).click();
+
+		Assert.assertEquals(
+				driver.findElement(By.cssSelector(".woocommerce-products-header__title.page-title")).getText(),
+				"Search results: “Blue”");
+
+		driver.findElement(By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']")).click();
+
+		Thread.sleep(4000);
+		driver.findElement(By.cssSelector("a[title='View cart']")).click();
+
+		Assert.assertEquals(driver.findElement(By.cssSelector("td[class='product-name'] a")).getText(), "Blue Shoes");
+
+		driver.findElement(By.cssSelector(".checkout-button")).click();
+
+		driver.findElement(By.id("billing_first_name")).sendKeys("demo");
+		driver.findElement(By.id("billing_last_name")).sendKeys("user");
+		driver.findElement(By.id("billing_address_1")).sendKeys("San Fransico");
+		driver.findElement(By.id("billing_city")).sendKeys("San Fransico");
+		driver.findElement(By.id("billing_postcode")).sendKeys("94188");
+		driver.findElement(By.id("billing_email")).sendKeys("askomdch@gmail.com");
+		driver.findElement(By.id("place_order")).click();
+		Thread.sleep(5000);
+		Assert.assertEquals(driver.findElement(By.cssSelector(".woocommerce-notice")).getText(), "Thank you. Your order has been received.");
+
+	}
+
+	@Test
+	public void loginAndCheckoutUsingDirectBankTransfer() throws InterruptedException {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+
+		driver.get("https://askomdch.com/");
+		driver.manage().window().maximize();
+
+		driver.findElement(By.cssSelector("#menu-item-1227 > a")).click();
+		driver.findElement(By.id("woocommerce-product-search-field-0")).sendKeys("Blue");
+		driver.findElement(By.cssSelector("button[value='Search']")).click();
+
+		Assert.assertEquals(
+				driver.findElement(By.cssSelector(".woocommerce-products-header__title.page-title")).getText(),
+				"Search results: “Blue”");
+
+		driver.findElement(By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']")).click();
+
+		Thread.sleep(4000);
+		driver.findElement(By.cssSelector("a[title='View cart']")).click();
+
+		Assert.assertEquals(driver.findElement(By.cssSelector("td[class='product-name'] a")).getText(), "Blue Shoes");
+
+		driver.findElement(By.cssSelector(".checkout-button")).click();
+
+		driver.findElement(By.className("showlogin")).click();
+		Thread.sleep(3000);
+		driver.findElement(By.id("username")).sendKeys("demouser987");
+		driver.findElement(By.id("password")).sendKeys("demouser987");
+		driver.findElement(By.name("login")).click();
+
+		driver.findElement(By.id("billing_first_name")).sendKeys("demo");
+		driver.findElement(By.id("billing_last_name")).sendKeys("user");
+		driver.findElement(By.id("billing_address_1")).sendKeys("San Fransico");
+		driver.findElement(By.id("billing_city")).sendKeys("San Fransico");
+		driver.findElement(By.id("billing_postcode")).sendKeys("94188");
+		driver.findElement(By.id("billing_email")).clear();
+		driver.findElement(By.id("billing_email")).sendKeys("askomdch@gmail.com");
+		driver.findElement(By.id("place_order")).click();
+		Thread.sleep(5000);
+		Assert.assertEquals(driver.findElement(By.cssSelector(".woocommerce-notice")).getText(),
+				"Thank you. Your order has been received.");
+		driver.quit();
+
+	}
+}
+
+
+
+org.openqa.selenium.ElementNotInteractableException: element not interactable - element is present in DOM , but we are not waiting for that to be interactable
+so give some wait
+
+
+org.openqa.selenium.StaleElementReferenceException: stale element reference: element is not attached to the page document
+The reason for this is because the element to which you have referred is removed from the DOM structure
+
+
+
+Less is more - follow atomic testcases , have a clear use of testcase
+use Atomic tests
+Code Duplication should be avoided - follow DRY
+Duplicate Element Definitions should not be used , use POM
+User and application state dependencies - testcase is dependent on application state like payment mode , country and email id if logged in
+the selenium imports are present in testcase class
+place the common code inside a method using testng methods
+we are using static sleeps , which is not a correct approach use implicit ,explicit ,fluent wait
+Automation time taken is fast on local machine , but slow on cloud machines
+Remove hard coded test data
+Donot do hardcoded text validations
+Lack of multiple browser supports
+Lack of multiple environment support
+
+
+Our framework should be
+readable,maintainable , scalable
+DRY
+SRP - single responsibility principle
+OOP - Encapsulation , Inheritance ,Composition and Interface and polymorphism
+POM

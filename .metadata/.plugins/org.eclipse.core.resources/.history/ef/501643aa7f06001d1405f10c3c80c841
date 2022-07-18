@@ -1,0 +1,10 @@
+package org.selenium.factory;
+
+import org.openqa.selenium.WebDriver;
+
+public class DriverManager {
+
+	public WebDriver initializaDriver() {
+		
+	}
+}
