@@ -10,6 +10,11 @@ public class HomePage extends BasePage {
 		super(driver);
 	}
 
+	
+	public HomePage load() {
+		load("/");
+		return this;
+	}
 	private final By storemenuLink = By.cssSelector("#menu-item-1227 > a");
 	
 	

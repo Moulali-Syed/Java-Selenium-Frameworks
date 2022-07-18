@@ -4,4 +4,10 @@
     <fullyQualifiedTypeName name="io.github.bonigarcia.wdm.WebDriverManager"/>
     <fullyQualifiedTypeName name="org.openqa.selenium.By"/>
     <fullyQualifiedTypeName name="org.testng.Assert"/>
+    <fullyQualifiedTypeName name="org.selenium.factory.DriverManager"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.BaseTest"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.pages.CartPage"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.base.BaseTest"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.base.BasePage"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.pages.CheckoutPage"/>
 </qualifiedTypeNameHistroy>
