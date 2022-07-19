@@ -1,0 +1,52 @@
+go to maven.apache.org/download.cgi this link
+
+then download the zip file - apache-maven-3.8.6-bin.zip folder
+
+the unzip it - go inside bin folder --> copy the bin path
+
+then go to edit the system environment variables , go to system variables --> path --click on new and paste the path
+
+go to command prompt - type mvn and enter , u will see Build Failure
+
+
+
+================================================================================================================================================================
+Execute Automation using maven command line:
+
+create a package inside pom - tests , and move the tescase inside this package
+
+
+now go to cmd
+project path
+
+and given maven commands
+
+mvn test
+
+
+do mvn clean and then mvn test
+or use
+mvn clean test
+
+this clean will remove the cache of our project
+
+Always set the encoding , in the pom.xml file
+
+	<properties>
+		<maven.compiler.source>16</maven.compiler.source>
+		<maven.compiler.target>16</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+================================================================================================================================================================
+
+How maven recoginzes Test classes:
+
+our testcase class name must have test text in it
+
+it is preferred to have the test at the end , if it is in the middle then also maven considers it and run the @Test methods inside it
+
+
+if some testcase class name is BaseTest.java , if this doesnot have @Test methods inside then maven doesnot runs it
+
+
+================================================================================================================================================================

@@ -1,0 +1,118 @@
+Drive TestNG XML from maven command line
+
+we can do this using maven surefire plugin
+
+go to this link :  https://maven.apache.org/surefire/maven-surefire-plugin/examples/testng.html
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+<suiteXmlFile>testng.xml</suiteXmlFile> ---> here we r providing path , as it is at project level we r passing its name , if not we should pass the path
+
+
+now go to cmd
+mvn clean test
+
+=======================================================================================================================================
+if we have 2 testng.xml files and we want both to run 
+
+then simply provide the both testng.xml files as below
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+						<suiteXmlFile>testng2.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+from cmd
+run
+mvn clean test
+=======================================================================================================================================
+Set testng.xml paths using maven command line:
+
+
+then change the surefire plugin in pom.xml as below
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
+			</plugin>
+
+		</plugins>
+	</build>
+
+now go to cmd and use the command below
+
+mvn clean test -Dsurefire.suiteXmlFiles=testng.xml,testng2.xml
+
+we can supply one or multiple xmls comma seperated
+
+=======================================================================================================================================
+Use default testng xml and make automation flexible:
+
+
+	<properties>
+		<maven.compiler.source>16</maven.compiler.source>
+		<maven.compiler.target>16</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<suiteFile>testng.xml</suiteFile>     //<------------------------------------
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>${suiteFile}</suiteXmlFile>  //<------------------------------------
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+now in cmd
+mvn clean test -DsuiteFile=testng2.xml
+now it will run based on the testng2.xml file
+
+now if we dont pass the parameter
+mvn clean test 
+this will run the default testng.xml 
+
+=======================================================================================================================================
