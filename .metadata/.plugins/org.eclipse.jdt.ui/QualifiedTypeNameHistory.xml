@@ -17,4 +17,6 @@
     <fullyQualifiedTypeName name="org.selenium.pom.objects.Product"/>
     <fullyQualifiedTypeName name="org.selenium.pom.objects.User"/>
     <fullyQualifiedTypeName name="java.time.Duration"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.ExpectedConditions"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.Select"/>
 </qualifiedTypeNameHistroy>

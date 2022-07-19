@@ -1,0 +1,27 @@
+We can use WebDriverManager , to take care of the browser automatically
+
+Add WebDriverManager dependency
+
+
+use this line for browser
+WebDriverManager.chromedriver().setup();
+
+
+public class DriverManager {
+
+	public WebDriver initializeDriver() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+		return driver;
+	}
+}
+
+
+
+if we want the Drivers to get downloaded at a path we want , then use 
+WebDriverManager.chromedriver().cachePath("Drivers").setup();
+
+
+insteading of downloading each time , the browser driver will get downloaded at one path,and is used for subsequent tests

@@ -14,6 +14,10 @@ public class BasePage {
 	protected WebDriver driver;
 	protected WebDriverWait wait;//<---------------explicit wait-------------------------
 	
+
+
+	
+	
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver,Duration.ofSeconds(15));//<---------------explicit wait-------------------------
@@ -22,7 +26,6 @@ public class BasePage {
 	public void load(String endPoint) {
 		driver.get("https://askomdch.com/" + endPoint);
 	}
-
 	public void waitForOverlaysToDisappear(By overlay) {
 
 		List<WebElement> overlays = driver.findElements(overlay);

@@ -1,0 +1,6 @@
+In our application , it is selecting the country and state by default
+and we r depending on the application state
+
+
+If any dropdown is selected with default values
+then also create methods so that it can be selected with the required ones

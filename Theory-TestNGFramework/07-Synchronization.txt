@@ -310,6 +310,9 @@ public class CheckoutPage extends BasePage {
 		.enterEmail(billingAddress.getEmail());
 	}
 }
+==========================================================================================================================================
+
+Explicit wait - more strategies
 
 ==========================================================================================================================================
 Exceptions:
@@ -317,6 +320,87 @@ Exceptions:
 element click intercepted exception - which means there is another element on top the element we r trying to interact with
 we can handle this with , explicit wait in some times
 
+
+wait for the page to load - driver.get("url");
+
+wait for the page title or for the URL to show up in the URL bar
+
+wait for slowest element to load - this saves a lot of WebDriver API calls speeding up the automation
+
+wait for each UI element - this slows down the automation with many WebDriver API calls but this adds a lot of reliability to the automation
+
+in HomePage
+	public HomePage load() {
+		wait.until(ExpectedConditions.titleContains("AskOmDch"));
+		load("/");
+		return this;
+	}
+
+in StorePage
+
+	public Boolean isLoaded() {
+		return wait.until(ExpectedConditions.urlContains("/store"));
+	}
+
+in CartPage
+
+	public Boolean isLoaded() {
+		//wait for the element that takes more time
+		return wait.until(ExpectedConditions.textToBe(cartHeading,"Cart"));
+	}
+
+
+
+
+and use these methods to check whether page is fully loaded in test methods
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+		String searchFor = "Blue";
+		//now we have generalized the deserializejson method we can write below code
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215);
+
+		HomePage homePage = new HomePage(driver).load(); //-------------------<
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+		storePage.isLoaded(); //-------------------<
+		storePage.search(searchFor);
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
+		storePage.clickAddToCartBtn(product.getName());
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+		cartPage.isLoaded(); //-------------------<
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+
+		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+
+==========================================================================================================================================
+
+Fluent Wait 
+it is  a explicit wait mechanism , by default explicit wait has a polling time of every 500milliseconds , but in fluent wait we can decide it
+We can also configure the wait to ignore specific types of exceptions such as NoSuchElementException when searching for an element on the page
+
+
+// Waiting 30 seconds for an element to be present on the page, checking
+// for its presence once every 5 seconds.
+Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+  .withTimeout(Duration.ofSeconds(30))
+  .pollingEvery(Duration.ofSeconds(5))
+  .ignoring(NoSuchElementException.class);
+
+WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
+  public WebElement apply(WebDriver driver) {
+    return driver.findElement(By.id("foo"));
+  }
+});
+  
 
 ==========================================================================================================================================
 

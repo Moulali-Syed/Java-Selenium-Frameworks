@@ -40,16 +40,16 @@ public class MyFirstTestCase extends BaseTest {
 		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
 		Product product = new Product(1215);
 
-		HomePage homePage = new HomePage(driver).load();
+		HomePage homePage = new HomePage(driver).load(); //-------------------<
 		StorePage storePage = homePage.navigateToStoreUsingMenu();
-
+		storePage.isLoaded(); //-------------------<
 		storePage.search(searchFor);
 
 		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
 		storePage.clickAddToCartBtn(product.getName());
 		Thread.sleep(4000);
 		CartPage cartPage = storePage.clickViewCart();
-
+		cartPage.isLoaded(); //-------------------<
 		Assert.assertEquals(cartPage.getProductName(), product.getName());
 
 		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
