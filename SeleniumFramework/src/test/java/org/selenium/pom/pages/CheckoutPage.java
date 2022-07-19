@@ -1,8 +1,15 @@
 package org.selenium.pom.pages;
 
+import java.time.Duration;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selenium.pom.base.BasePage;
+import org.selenium.pom.objects.BillingAddress;
 
 public class CheckoutPage extends BasePage {
 
@@ -23,10 +30,13 @@ public class CheckoutPage extends BasePage {
 	private final By userName = By.id("username");
 	private final By password = By.id("password");
 	private final By login = By.name("login");
-
+	private final By overlay = By.cssSelector(".blockUI.blockOverlay");
 
 	public CheckoutPage enterFirstName(String firstName) {
-		driver.findElement(firstnameFld).sendKeys(firstName);
+		WebElement e = getElement(firstnameFld);
+		e.clear();
+		e.sendKeys(firstName);
+//		driver.findElement(firstnameFld).sendKeys(firstName);
 		return this;
 	}
 
@@ -56,32 +66,47 @@ public class CheckoutPage extends BasePage {
 	}
 	
 	public CheckoutPage placeOrder() {
+		waitForOverlaysToDisappear(overlay);
+		
 		driver.findElement(placeOrderBtn).click();
 		return this;
 	}
 	
 	public String getNotice() {
-		return driver.findElement(successNotice).getText();
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(successNotice)).getText();
+//		return driver.findElement(successNotice).getText();
 	}
 	
 	public CheckoutPage showLogin() {
-		driver.findElement(showLogin).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(showLogin)).click();
+//		driver.findElement(showLogin).click();
 		return this;
 	}
 	
 	public CheckoutPage enterUsername(String txt) {
-		driver.findElement(userName).sendKeys(txt);
+		wait.until(ExpectedConditions.elementToBeClickable(userName)).sendKeys(txt);
+//		driver.findElement(userName).sendKeys(txt);
 		return this;
 	}
 	
 	public CheckoutPage enterPassword(String txt) {
-		driver.findElement(password).sendKeys(txt);;
+		wait.until(ExpectedConditions.elementToBeClickable(password)).sendKeys(txt);
+//		driver.findElement(password).sendKeys(txt);
 		return this;
 	}
 	
 	public CheckoutPage clickLogin() {
-		driver.findElement(login).click();
+		wait.until(ExpectedConditions.elementToBeClickable(login)).click();
+//		driver.findElement(login).click();
 		return this;
 	}
 
+	public CheckoutPage setBillingAddress(BillingAddress billingAddress) {
+		return enterFirstName(billingAddress.getFirstName())
+		.enterLastName(billingAddress.getLastName())
+		.enterAddressLineOne(billingAddress.getAddressLineOne())
+		.enterCity(billingAddress.getCity())
+		.enterPostCode(billingAddress.getPostalCode())
+		.enterEmail(billingAddress.getEmail());
+	}
 }

@@ -1,0 +1,17 @@
+package org.selenium.pom.utils;
+
+import org.selenium.pom.objects.BillingAddress;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+//this class  will return the java object
+public class JacksonUtils {
+
+	public BillingAddress deserialization(String filePath,BillingAddress billingAddress) {
+		
+		//create object of ObjectMapper
+		ObjectMapper objectMapper = new ObjectMapper();
+		//then use the readValue method , 
+		objectMapper.readValue(filePath, billingAddress.getClass());
+	}
+}

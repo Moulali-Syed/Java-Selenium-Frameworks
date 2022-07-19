@@ -1,0 +1,7 @@
+package org.selenium.pom.utils;
+
+
+//this class  will return the java object
+public class JacksonUtils {
+
+}

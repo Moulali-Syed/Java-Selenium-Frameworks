@@ -1,0 +1,345 @@
+Synchronization:
+The operation or activity of two or more things at the same time or rate
+we need to do synchronization because web driver is not synchronized with browser
+
+Implicit wait:
+it will be till the driver instance
+if we give 30 seconds , if element found in 2seconds then it will go thru, if some element not found it will wait for 30 seconds
+we cant check at a particular element , if it is visible or if it is interactable ,..so on 
+implicit wait thus has limitations
+
+implicit wait : even if wait time is some 10 seconds , if element is found in 2 seconds then it will proceed with in 2 seconds instead of waiting for 10seconds
+implicit wait is applied for all elements
+
+Implementing implicit wait:
+in DriverManager.java
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+
+public class DriverManager {
+
+	//initialize driver and return webdriver object
+	public WebDriver initializeDriver() {
+
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+		return driver;
+	}
+}
+
+and remove Thread.sleep from testcases
+==========================================================================================================================================
+Reusable method to handle overlay:
+
+in BasePage add the method for overlay
+
+	public void waitForOverlaysToDisappear(By overlay) {
+
+		List<WebElement> overlays = driver.findElements(overlay);
+		System.out.println("Overlay size: " + overlays.size());
+		if (overlays.size() > 0) {
+			new WebDriverWait(driver, Duration.ofSeconds(15))
+					.until(ExpectedConditions.invisibilityOfAllElements(overlays));
+			System.out.println("Overlay are invisible");
+
+		}else {
+			System.out.println("Overlay not found");
+		}
+	}
+
+
+
+use the reusable method in page class - CheckoutPage.java
+
+	public CheckoutPage placeOrder() {
+		waitForOverlaysToDisappear(overlay);
+		driver.findElement(placeOrderBtn).click();
+		return this;
+	}
+
+==========================================================================================================================================
+Explicit wait:
+
+Explicit waits are avaiable to selenium clients for imperative , procedural langauges. they allow your code to halt program execution
+or freeze the thread until the condition u pass it resolves. the condition is called with a certain frequency until the timeout of the wait
+is elapsed. this means that for as long as the condition returns a falsy value , it will keep trying and waiting
+
+Since explicit waits allow u to wait for a condition to occur , they make a good fit for synchronizing the state between browser and its DOM
+and your WebDriver script
+
+to remedy our buggy instruction set from earlier we could employ a wait to have the findElement call wait until the dynamically added
+element from the script has benn added to the DOM
+==========================================================================================================================================
+Explicit wait strategies:
+
+wait for the page to load - driver.get("url");
+
+wait for the page title or for the URL to show up in the URL bar
+
+wait for slowest element to load - this saves a lot of WebDriver API calls speeding up the automation
+
+wait for each UI element - this slows down the automation with many WebDriver API calls but this adds a lot of reliability to the automation
+
+==========================================================================================================================================
+Explicit wait Implementation:
+
+public class BasePage {
+
+	protected WebDriver driver;
+	protected WebDriverWait waitLong; //<---------------explicit wait-------------------------
+	protected WebDriverWait waitShort;//<---------------explicit wait-------------------------
+	
+	public BasePage(WebDriver driver) {
+		this.driver = driver;
+		waitLong = new WebDriverWait(driver,Duration.ofSeconds(15));//<---------------explicit wait-------------------------
+		waitShort = new WebDriverWait(driver,Duration.ofSeconds(5));//<---------------explicit wait-------------------------
+	}
+
+	public void load(String endPoint) {
+		driver.get("https://askomdch.com/" + endPoint);
+	}
+
+	public void waitForOverlaysToDisappear(By overlay) {
+
+		List<WebElement> overlays = driver.findElements(overlay);
+		System.out.println("Overlay size: " + overlays.size());
+		if (overlays.size() > 0) {
+				waitLong.until(ExpectedConditions.invisibilityOfAllElements(overlays));//<---------------explicit wait-------------------------
+			System.out.println("Overlay are invisible");
+
+		}else {
+			System.out.println("Overlay not found");
+		}
+	}
+}
+
+
+
+*********
+
+public class BasePage {
+
+	protected WebDriver driver;
+	protected WebDriverWait wait;//<---------------explicit wait-------------------------
+	
+	public BasePage(WebDriver driver) {
+		this.driver = driver;
+		wait = new WebDriverWait(driver,Duration.ofSeconds(15));//<---------------explicit wait-------------------------
+	}
+
+	public void load(String endPoint) {
+		driver.get("https://askomdch.com/" + endPoint);
+	}
+
+	public void waitForOverlaysToDisappear(By overlay) {
+
+		List<WebElement> overlays = driver.findElements(overlay);
+		System.out.println("Overlay size: " + overlays.size());
+		if (overlays.size() > 0) {
+				wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));//<---------------explicit wait-------------------------
+			System.out.println("Overlay are invisible");
+
+		}else {
+			System.out.println("Overlay not found");
+		}
+	}
+}
+==========================================================================================================================================
+Now we can use the explicit wait , in the page classes , as it is extended by BasePage
+
+************
+public class CartPage extends BasePage {
+
+	public CartPage(WebDriver driver) {
+		super(driver);
+	}
+
+	private final By productName = By.cssSelector("td[class='product-name'] a");
+	private final By checkoutBtn = By.cssSelector(".checkout-button");
+
+	public String getProductName() {
+		
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(productName)).getText();
+//		return driver.findElement(productName).getText();
+	}
+
+	public CheckoutPage checkout() {
+		//now we can use the explicit wait for the element , whichever to be waited by using the below syntax of explicit wait
+		wait.until(ExpectedConditions.elementToBeClickable(checkoutBtn)).click();
+//		driver.findElement(checkoutBtn).click();
+		return new CheckoutPage(driver);
+	}
+}
+************************************************
+instead of using this syntax for each webelement , we can use a reusable method , that we can create a method in the BasePage as it is inherited in all the page classes
+
+return wait.until(ExpectedConditions.visibilityOfElementLocated(productName)).getText();
+	
+
+	public WebElement getElement(By element) {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+	}
+
+Now we can use this in the page classes as  
+
+WebElement e = getElement(productName);
+return e.getText();
+************************************************
+This can also be easily addressed by making wait variable private , this way no one will be able to use
+wait variable in the pageObjects only option to use explicit wait strategies would be through the methods in the BasePage
+
+we can use each of the methods with different explicit wait methods
+
+	public WebElement waitForElementToBeVisible(By element) {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+	}
+
+************************************************
+page classes
+
+package org.selenium.pom.pages;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.selenium.pom.base.BasePage;
+import org.selenium.pom.objects.BillingAddress;
+
+public class CheckoutPage extends BasePage {
+
+	public CheckoutPage(WebDriver driver) {
+		super(driver);
+		// TODO Auto-generated constructor stub
+	}
+
+	private final By firstnameFld = By.id("billing_first_name");
+	private final By lastNameFld = By.id("billing_last_name");
+	private final By addressLineOneFld = By.id("billing_address_1");
+	private final By billingCityFld = By.id("billing_city");
+	private final By billingPostCodeFld = By.id("billing_postcode");
+	private final By billingEmailFld = By.id("billing_email");
+	private final By placeOrderBtn = By.id("place_order");
+	private final By successNotice = By.cssSelector(".woocommerce-notice");
+	private final By showLogin = By.className("showlogin");
+	private final By userName = By.id("username");
+	private final By password = By.id("password");
+	private final By login = By.name("login");
+	private final By overlay = By.cssSelector(".blockUI.blockOverlay");
+
+	public CheckoutPage enterFirstName(String firstName) {
+		WebElement e = getElement(firstnameFld);
+		e.clear();
+		e.sendKeys(firstName);
+//		driver.findElement(firstnameFld).sendKeys(firstName);
+		return this;
+	}
+
+	public CheckoutPage enterLastName(String lastName) {
+		driver.findElement(lastNameFld).sendKeys(lastName);
+		return this;
+	}
+
+	public CheckoutPage enterAddressLineOne(String addressLineOne) {
+		driver.findElement(addressLineOneFld).sendKeys(addressLineOne);
+		return this;
+	}
+
+	public CheckoutPage enterCity(String city) {
+		driver.findElement(billingCityFld).sendKeys(city);
+		return this;
+	}
+
+	public CheckoutPage enterPostCode(String postCode) {
+		driver.findElement(billingPostCodeFld).sendKeys(postCode);
+		return this;
+	}
+
+	public CheckoutPage enterEmail(String email) {
+		driver.findElement(billingEmailFld).sendKeys(email);
+		return this;
+	}
+	
+	public CheckoutPage placeOrder() {
+		waitForOverlaysToDisappear(overlay);
+		
+		driver.findElement(placeOrderBtn).click();
+		return this;
+	}
+	
+	public String getNotice() {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(successNotice)).getText();
+//		return driver.findElement(successNotice).getText();
+	}
+	
+	public CheckoutPage showLogin() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(showLogin)).click();
+//		driver.findElement(showLogin).click();
+		return this;
+	}
+	
+	public CheckoutPage enterUsername(String txt) {
+		wait.until(ExpectedConditions.elementToBeClickable(userName)).sendKeys(txt);
+//		driver.findElement(userName).sendKeys(txt);
+		return this;
+	}
+	
+	public CheckoutPage enterPassword(String txt) {
+		wait.until(ExpectedConditions.elementToBeClickable(password)).sendKeys(txt);
+//		driver.findElement(password).sendKeys(txt);
+		return this;
+	}
+	
+	public CheckoutPage clickLogin() {
+		wait.until(ExpectedConditions.elementToBeClickable(login)).click();
+//		driver.findElement(login).click();
+		return this;
+	}
+
+	public CheckoutPage setBillingAddress(BillingAddress billingAddress) {
+		return enterFirstName(billingAddress.getFirstName())
+		.enterLastName(billingAddress.getLastName())
+		.enterAddressLineOne(billingAddress.getAddressLineOne())
+		.enterCity(billingAddress.getCity())
+		.enterPostCode(billingAddress.getPostalCode())
+		.enterEmail(billingAddress.getEmail());
+	}
+}
+
+==========================================================================================================================================
+Exceptions:
+
+element click intercepted exception - which means there is another element on top the element we r trying to interact with
+we can handle this with , explicit wait in some times
+
+
+==========================================================================================================================================
+
+To handle overlay , when we have any element over some other element
+
+	public CheckoutPage placeOrder() {
+		List<WebElement> overlays = driver.findElements(overlay);
+		System.out.println("Overlay size: "+overlays.size());
+		if(overlays.size()>0) {
+			new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.invisibilityOfAllElements(overlays));
+			System.out.println("Overlay are invisible");
+
+		}
+		driver.findElement(placeOrderBtn).click();
+		return this;
+	}
+
+
+
+==========================================================================================================================================
+*************************************
+reference link for element click intercepted
+https://stackoverflow.com/questions/44912203/selenium-web-driver-java-element-is-not-clickable-at-point-x-y-other-elem
+******************************************
+
+

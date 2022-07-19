@@ -1,0 +1,10 @@
+package org.selenium.pom.objects;
+
+public class Product {
+
+	//the type and field name[key] must batch in json file and POJO class
+	private int id;
+	private String name;
+	
+	
+}

@@ -1,0 +1,429 @@
+Now we want the data that we are passing to constructor , comes from another file , instead of directly hardcoding
+thus we overcome updating the testcase
+
+
+lets use JSON , to fetch data
+lets use JACKSON API
+
+inside src/test/java - create a  package  -resources
+inside resources package , create a json file - myBillingAddress.json
+
+{
+
+	"firstName":"demo",
+	"lastName":"user",
+	"addressLineOne" :"San Fransico",
+	"city":"San Fransico",
+	"postCode":"94188",
+	"email":"askomdch@gmail.com"
+
+}
+
+
+make sure that keys in json , should exactly match with the instance variables used in the BillingAddress.java POJO class
+
+
+============================================================================================================================================================
+Add jackson dependency
+
+go mvn repo , search jackson api
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.3</version>
+</dependency>
+
+============================================================================================================================================================
+Lets create a utility method to deserialize the json
+
+inside pom package , create a package utils
+create a class JacksonUtils
+this class return the java object
+
+
+package org.selenium.pom.utils;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.selenium.pom.objects.BillingAddress;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+//this class  will return the java object
+public class JacksonUtils {
+
+	public static BillingAddress deserializeJson(InputStream is,BillingAddress billingAddress) throws IOException {
+		
+		//create object of ObjectMapper
+		ObjectMapper objectMapper = new ObjectMapper();
+		//then use the readValue method that takes 2 arguments filePath of json file and object of the class
+		return objectMapper.readValue(is, billingAddress.getClass());
+		
+		
+	}
+}
+
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+/*		BillingAddress billingAddress = new BillingAddress();
+		billingAddress.setFirstName("demo");
+		billingAddress.setLastName("user");
+		billingAddress.setAddressLineOne("San Fransico");
+		billingAddress.setCity("San Fransico");
+		billingAddress.setPostalCode("94188");
+		billingAddress.setEmail("askomdch@gamil.com");*/
+		
+//		BillingAddress billingAddress = new BillingAddress("demo","user","San Fransico","San Fransico","94188","askomdch@gmail.com");
+		
+		//now instead of hardcoding data as above, we can pass from json file
+		BillingAddress billingAddress = new BillingAddress();//create object of the POJO class
+		InputStream is = getClass().getClassLoader().getResourceAsStream("myBillingAddress.json");//pass the json file path
+		billingAddress = JacksonUtils.deserializeJson(is, billingAddress);//pass the fileobject,billingAddress object
+
+
+============================================================================================================================================================
+
+create a reusable method to deserialize json:
+
+
+//this class  will return the java object
+public class JacksonUtils {
+	
+	public static <T> T deserializeJson(String fileName,Class<T> T) throws IOException {
+	
+//		InputStream is = getClass().getClassLoader().getResourceAsStream("myBillingAddress.json");
+
+		//we are using JacksonUtils.class instead of getClass() because we are using static method
+		InputStream is = JacksonUtils.class.getClassLoader().getResourceAsStream(fileName);
+
+		//create object of ObjectMapper
+		ObjectMapper objectMapper = new ObjectMapper();
+		//then use the readValue method that takes 2 arguments filePath of json file and object of the class
+		return objectMapper.readValue(is, T);		
+	}
+}
+
+
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+/*		BillingAddress billingAddress = new BillingAddress();
+		billingAddress.setFirstName("demo");
+		billingAddress.setLastName("user");
+		billingAddress.setAddressLineOne("San Fransico");
+		billingAddress.setCity("San Fransico");
+		billingAddress.setPostalCode("94188");
+		billingAddress.setEmail("askomdch@gamil.com");*/
+		
+//		BillingAddress billingAddress = new BillingAddress("demo","user","San Fransico","San Fransico","94188","askomdch@gmail.com");
+		
+		//now instead of hardcoding data as above, we can pass from json file
+		/*BillingAddress billingAddress = new BillingAddress();
+		InputStream is = getClass().getClassLoader().getResourceAsStream("myBillingAddress.json");
+		billingAddress = JacksonUtils.deserializeJson(is, billingAddress);*/
+		
+		//now we have generalized the deserializejson method we can write below code
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+
+============================================================================================================================================================
+products - json array
+
+[
+
+	{
+	  "id": 1215,
+	  "name": "Blue Shoes"
+	}
+	
+
+]
+
+
+create POJO
+inside objects package - create a POJO class
+
+public class Product {
+
+	// the type and field name[key] must batch in json file and POJO class
+	private int id;
+	private String name;
+
+	public Product() {
+
+	}
+
+	//constructor to pass productId and fetch the required productName 
+	public Product(int id) throws IOException {
+		Product[] products = JacksonUtils.deserializeJson("\\resources\\products.json", Product[].class);
+		//as the json is array of products , we can iterate thru it and fetch required product
+		for (Product product : products) {
+			if (product.getId() == id) {
+				this.id = id;
+				this.name = product.getName();
+			}
+		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+}
+
+
+
+now in test method use this
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+		
+	
+		//now we have generalized the deserializejson method we can write below code
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215); //--------------------------------------------<
+
+		HomePage homePage = new HomePage(driver).load();
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+
+		storePage.search("Blue");
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
+		storePage.clickAddToCartBtn(product.getName()); //--------------------------------------------<
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+
+		Assert.assertEquals(cartPage.getProductName(), product.getName()); //--------------------------------------------<
+
+		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+		
+============================================================================================================================================================
+
+
+package org.selenium.pom.objects;
+
+public class User {
+
+	private String username;
+	private String password;
+
+	public User() {
+	}
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+}
+
+
+
+	@Test
+	public void loginAndCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+		String searchFor = "Blue";
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215);
+		
+		User user = new User("demouser987","demouser987");
+		
+		
+		HomePage homePage = new HomePage(driver).load();
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+
+		storePage.search("Blue");
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
+		storePage.clickAddToCartBtn(product.getName());
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+
+		CheckoutPage checkoutPage = cartPage.checkout();
+
+		checkoutPage.showLogin();
+
+		Thread.sleep(3000);
+
+		checkoutPage.enterUsername(user.getUsername()).enterPassword(user.getPassword()).clickLogin();
+		Thread.sleep(5000);
+		checkoutPage.setBillingAddress(billingAddress);
+		Thread.sleep(5000);
+//		checkoutPage.enterFirstName("demo").enterLastName("user").enterAddressLineOne("San Fransico")
+//				.enterCity("San Fransico").enterPostCode("94188");
+
+		checkoutPage.enterEmail("");
+		checkoutPage.enterEmail("demouser987").placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+
+
+==================================================================================================================
+End to End testcase
+
+package org.selenium;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.selenium.pom.base.BaseTest;
+import org.selenium.pom.objects.BillingAddress;
+import org.selenium.pom.objects.Product;
+import org.selenium.pom.objects.User;
+import org.selenium.pom.pages.CartPage;
+import org.selenium.pom.pages.CheckoutPage;
+import org.selenium.pom.pages.HomePage;
+import org.selenium.pom.pages.StorePage;
+import org.selenium.pom.utils.JacksonUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class MyFirstTestCase extends BaseTest {
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+		String searchFor = "Blue";
+/*		BillingAddress billingAddress = new BillingAddress();
+		billingAddress.setFirstName("demo");
+		billingAddress.setLastName("user");
+		billingAddress.setAddressLineOne("San Fransico");
+		billingAddress.setCity("San Fransico");
+		billingAddress.setPostalCode("94188");
+		billingAddress.setEmail("askomdch@gamil.com");*/
+		
+//		BillingAddress billingAddress = new BillingAddress("demo","user","San Fransico","San Fransico","94188","askomdch@gmail.com");
+		
+		//now instead of hardcoding data as above, we can pass from json file
+		/*BillingAddress billingAddress = new BillingAddress();
+		InputStream is = getClass().getClassLoader().getResourceAsStream("myBillingAddress.json");
+		billingAddress = JacksonUtils.deserializeJson(is, billingAddress);*/
+		
+		//now we have generalized the deserializejson method we can write below code
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215);
+
+		HomePage homePage = new HomePage(driver).load();
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+
+		storePage.search(searchFor);
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
+		storePage.clickAddToCartBtn(product.getName());
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+
+		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+	
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer1() throws InterruptedException, IOException {
+
+		// using jacksonUtils
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json", BillingAddress.class);
+
+		StorePage storePage = new HomePage(driver).load().navigateToStoreUsingMenu().search("Blue");
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
+		storePage.clickAddToCartBtn("Blue Shoes");
+		Thread.sleep(3000);
+		CartPage cartPage = storePage.clickViewCart();
+
+		Assert.assertEquals(cartPage.getProductName(), "Blue Shoes");
+		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+
+	@Test
+	public void loginAndCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+		String searchFor = "Blue";
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215);
+		
+		User user = new User("demouser987","demouser987");
+		
+		
+		HomePage homePage = new HomePage(driver).load();
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+
+		storePage.search("Blue");
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
+		storePage.clickAddToCartBtn(product.getName());
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+
+		CheckoutPage checkoutPage = cartPage.checkout();
+
+		checkoutPage.showLogin();
+
+		Thread.sleep(3000);
+
+		checkoutPage.enterUsername(user.getUsername()).enterPassword(user.getPassword()).clickLogin();
+		Thread.sleep(5000);
+		checkoutPage.setBillingAddress(billingAddress);
+		Thread.sleep(5000);
+//		checkoutPage.enterFirstName("demo").enterLastName("user").enterAddressLineOne("San Fransico")
+//				.enterCity("San Fransico").enterPostCode("94188");
+
+		checkoutPage.enterEmail("");
+		checkoutPage.enterEmail("demouser987").placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+}

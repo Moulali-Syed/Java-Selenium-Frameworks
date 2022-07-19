@@ -1,33 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+<testng-results ignored="0" total="3" passed="2" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-07-18T18:09:35 IST" name="Default suite" finished-at="2022-07-18T18:10:30 IST" duration-ms="55071">
+  <suite started-at="2022-07-19T16:57:32 IST" name="Default suite" finished-at="2022-07-19T16:59:26 IST" duration-ms="113440">
     <groups>
     </groups>
-    <test started-at="2022-07-18T18:09:35 IST" name="Default test" finished-at="2022-07-18T18:10:30 IST" duration-ms="55071">
+    <test started-at="2022-07-19T16:57:32 IST" name="Default test" finished-at="2022-07-19T16:59:26 IST" duration-ms="113440">
       <class name="org.selenium.MyFirstTestCase">
-        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:09:35 IST" name="startDriver" finished-at="2022-07-18T18:09:38 IST" duration-ms="2872" status="PASS">
+        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:57:32 IST" name="startDriver" finished-at="2022-07-19T16:57:37 IST" duration-ms="4518" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startDriver -->
-        <test-method signature="guestCheckoutUsingDirectBankTransfer()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:09:38 IST" name="guestCheckoutUsingDirectBankTransfer" finished-at="2022-07-18T18:09:56 IST" duration-ms="18170" status="PASS">
+        <test-method signature="guestCheckoutUsingDirectBankTransfer()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:57:37 IST" name="guestCheckoutUsingDirectBankTransfer" finished-at="2022-07-19T16:57:58 IST" duration-ms="21196" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- guestCheckoutUsingDirectBankTransfer -->
-        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:09:56 IST" name="quitDriver" finished-at="2022-07-18T18:09:56 IST" duration-ms="245" status="PASS">
+        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:57:58 IST" name="quitDriver" finished-at="2022-07-19T16:57:58 IST" duration-ms="320" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quitDriver -->
-        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:09:56 IST" name="startDriver" finished-at="2022-07-18T18:09:58 IST" duration-ms="1155" status="PASS">
+        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:57:58 IST" name="startDriver" finished-at="2022-07-19T16:58:00 IST" duration-ms="1202" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startDriver -->
-        <test-method signature="loginAndCheckoutUsingDirectBankTransfer()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:09:58 IST" name="loginAndCheckoutUsingDirectBankTransfer" finished-at="2022-07-18T18:10:30 IST" duration-ms="32329" status="PASS">
+        <test-method signature="guestCheckoutUsingDirectBankTransfer1()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:58:00 IST" name="guestCheckoutUsingDirectBankTransfer1" finished-at="2022-07-19T16:58:19 IST" duration-ms="19617" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- guestCheckoutUsingDirectBankTransfer1 -->
+        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:58:19 IST" name="quitDriver" finished-at="2022-07-19T16:58:19 IST" duration-ms="242" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- quitDriver -->
+        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:58:19 IST" name="startDriver" finished-at="2022-07-19T16:58:21 IST" duration-ms="1273" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startDriver -->
+        <test-method signature="loginAndCheckoutUsingDirectBankTransfer()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:58:21 IST" name="loginAndCheckoutUsingDirectBankTransfer" finished-at="2022-07-19T16:59:25 IST" duration-ms="64634" status="FAIL">
+          <exception class="org.openqa.selenium.TimeoutException">
+            <message>
+              <![CDATA[Expected condition failed: waiting for visibility of element located by By.cssSelector: .woocommerce-notice (tried for 15 second(s) with 500 milliseconds interval)
+Build info: version: '4.1.4', revision: '535d840ee2'
+System info: host: 'DESKTOP-5MGC367', ip: '192.168.100.7', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 103.0.5060.114, chrome: {chromedriverVersion: 103.0.5060.53 (a1711811edd7..., userDataDir: C:\Users\MOULALI\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:64566}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:64566/devtoo..., se:cdpVersion: 103.0.5060.114, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: e7434959a7173bff38b58c5513cd16f7]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element located by By.cssSelector: .woocommerce-notice (tried for 15 second(s) with 500 milliseconds interval)
+Build info: version: '4.1.4', revision: '535d840ee2'
+System info: host: 'DESKTOP-5MGC367', ip: '192.168.100.7', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 103.0.5060.114, chrome: {chromedriverVersion: 103.0.5060.53 (a1711811edd7..., userDataDir: C:\Users\MOULALI\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:64566}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:64566/devtoo..., se:cdpVersion: 103.0.5060.114, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: e7434959a7173bff38b58c5513cd16f7
+at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:87)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+at org.selenium.pom.pages.CheckoutPage.getNotice(CheckoutPage.java:76)
+at org.selenium.MyFirstTestCase.loginAndCheckoutUsingDirectBankTransfer(MyFirstTestCase.java:122)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
+at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
+at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
+at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
+at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
+at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.testng.TestRunner.privateRun(TestRunner.java:794)
+at org.testng.TestRunner.run(TestRunner.java:596)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+at org.testng.TestNG.runSuites(TestNG.java:1063)
+at org.testng.TestNG.run(TestNG.java:1031)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.openqa.selenium.TimeoutException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginAndCheckoutUsingDirectBankTransfer -->
-        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@28f2a10f]" started-at="2022-07-18T18:10:30 IST" name="quitDriver" finished-at="2022-07-18T18:10:30 IST" duration-ms="249" status="PASS">
+        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@f736069]" started-at="2022-07-19T16:59:25 IST" name="quitDriver" finished-at="2022-07-19T16:59:26 IST" duration-ms="324" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quitDriver -->
