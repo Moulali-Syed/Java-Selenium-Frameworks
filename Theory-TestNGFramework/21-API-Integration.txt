@@ -1,0 +1,253 @@
+Identify APIs:
+
+LoginDuringCheckout:
+Register user
+Add Product to cart
+
+Guest checkoutusing direct bank transfer
+add product to cart
+
+loginand checkout using direct bank transfer
+register user
+add product to cart
+
+loginand checkout using direct bank transfer:
+register user
+edit billing address
+add product to cart
+
+======================================================================================================================================================
+Dependencies for api testing
+
+
+rest assured
+
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>rest-assured</artifactId>
+    <version>5.1.1</version>
+    <scope>test</scope>
+</dependency>
+
+jsoup
+<dependency>
+    <groupId>org.jsoup</groupId>
+    <artifactId>jsoup</artifactId>
+    <version>1.14.3</version>
+</dependency>
+
+java faker -  to get random values
+<dependency>
+    <groupId>com.github.javafaker</groupId>
+    <artifactId>javafaker</artifactId>
+    <version>1.0.2</version>
+</dependency>
+======================================================================================================================================================
+understanding registration flow and apis
+
+Automate get account api:
+create a package inside pom - api , inside api package create a package name it actions ,inside it create a class - SignUpApi
+
+package org.selenium.pom.api.actions;
+
+
+import static io.restassured.RestAssured.*;
+
+import org.selenium.pom.utils.ConfigLoader;
+
+import io.restassured.http.Cookies;
+import io.restassured.response.Response;
+
+public class SignUpApi {
+
+	private Cookies cookies;
+	public Cookies getCookies() {
+		return cookies;
+	}
+	
+	public Response getAccount() {
+		Cookies cookies = new Cookies();
+		Response response = given().
+				baseUri(ConfigLoader.getInstance().getBaseUrl()).
+				cookies(cookies).
+				log().all().
+		when(). 
+				get("/account").
+		then().
+				log().all().
+				extract().
+				response();
+		
+		if(response.getStatusCode() != 200) {
+			throw new RuntimeException("Failed to fetch the account, HTTP status code: "+response.getStatusCode());
+		}
+		
+		return response;
+	}
+	
+}
+
+
+and the create a Dummyclass to check the api method is working
+
+package org.selenium.pom.api.actions;
+
+public class DummyClass {
+
+	public static void main(String[] args) {
+		new SignUpApi().getAccount();
+	}
+}
+======================================================================================================================================================
+Parse and Fetch using groovy:
+
+go to the link to know about rest assured with groovy - baeldung.com/rest-assured-groovy
+
+inside SignUpApi.java create a method , to fetch the required value
+
+	public String fetchRegisterNonceValue() {
+		Response response = getAccount();
+		return response.htmlPath().getString("**.findAll {it.@name == 'woocommerce-register-nonce' }.@value");
+	}
+
+
+public class DummyClass {
+
+	public static void main(String[] args) {
+//		new SignUpApi().getAccount();
+		System.out.println(new SignUpApi().fetchRegisterNonceValue());
+	}
+}
+======================================================================================================================================================
+
+Parse and Fetch using JSoup:
+
+	public String fetchRegisterNonceValueUsingJSoup() {
+		Response response = getAccount();
+		Document doc = Jsoup.parse(response.body().prettyPrint());
+		Element element = doc.selectFirst("#woocommerce-register-nonce");
+		return element.attr("value");
+	}
+
+
+public class DummyClass {
+
+	public static void main(String[] args) {
+		System.out.println(new SignUpApi().fetchRegisterNonceValueUsingJSoup());
+	}
+}
+
+======================================================================================================================================================
+now we can modify the SignUpApi.java , as we have seen thru DummyClass that it is working as expected
+
+package org.selenium.pom.api.actions;
+
+
+import static io.restassured.RestAssured.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.selenium.pom.utils.ConfigLoader;
+
+import io.restassured.http.Cookies;
+import io.restassured.response.Response;
+
+public class SignUpApi {
+
+	private Cookies cookies;
+	public Cookies getCookies() {
+		return cookies;
+	}
+	
+	private String fetchRegisterNonceValueUsingGroovy() {
+		Response response = getAccount();
+		return response.htmlPath().getString("**.findAll {it.@name == 'woocommerce-register-nonce' }.@value");
+	}
+	
+	
+	private String fetchRegisterNonceValueUsingJSoup() {
+		Response response = getAccount();
+		Document doc = Jsoup.parse(response.body().prettyPrint());
+		Element element = doc.selectFirst("#woocommerce-register-nonce");
+		return element.attr("value");
+	}
+	
+	private Response getAccount() {
+		Cookies cookies = new Cookies();
+		Response response = given().
+				baseUri(ConfigLoader.getInstance().getBaseUrl()).
+				cookies(cookies).
+				log().all().
+		when(). 
+				get("/account").
+		then().
+				log().all().
+				extract().
+				response();
+		
+		if(response.getStatusCode() != 200) {
+			throw new RuntimeException("Failed to fetch the account, HTTP status code: "+response.getStatusCode());
+		}
+		
+		return response;
+	}
+	
+}
+======================================================================================================================================================
+Automate Post account API:
+in SignUpApi class create a method for POST
+
+private Response register(User user) {
+		Cookies cookies = new Cookies();
+		
+		Header header = new Header("Content-Type","application/x-www-form-urlencoded");
+		Headers headers = new Headers(header);
+		
+		HashMap<String,String> formParams = new HashMap<>();
+		formParams.put("username", user.getUsername());
+		formParams.put("email", user.getEmail());
+		formParams.put("password", user.getPassword());
+		formParams.put("woocommerce-register-nonce", fetchRegisterNonceValueUsingJSoup());
+		formParams.put("register", "Register");
+		
+		Response response = given().
+				baseUri(ConfigLoader.getInstance().getBaseUrl()).
+				headers(headers). 
+				body(formParams).
+				cookies(cookies).
+				log().all().
+		when(). 
+				post("/account").
+		then().
+				log().all().
+				extract().
+				response();
+		
+		if(response.getStatusCode() != 302) {
+			throw new RuntimeException("Failed to register the account, HTTP status code: "+response.getStatusCode());
+		}
+		
+		return response;
+	}
+
+======================================================================================================================================================
+Faker API:
+to generate username and email ,create a common utility inside utils package
+FakerUtils
+
+
+package org.selenium.pom.utils;
+
+import com.github.javafaker.Faker;
+
+public class FakerUtils {
+
+	public Long generateRandomNumber() {
+		Faker faker = new Faker();
+		return faker.number().randomNumber();
+	}
+
+}
+
+======================================================================================================================================================

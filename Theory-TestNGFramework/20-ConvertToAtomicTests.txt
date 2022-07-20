@@ -32,13 +32,33 @@ public class NaviagtionTest extends BaseTest {
 
 create a class SearchTest
 
+public class SearchTest extends BaseTest {
 
+	@Test
+	public void searchWithPartialMatch() {
 
+		String searchFor = "Blue";
+		StorePage storepage = new StorePage(getDriver()).load().search(searchFor);
 
+		Assert.assertEquals(storepage.getTitle(), "Search results: “" + searchFor + "”");
+
+	}
+}
 
 ==============================================================================================================================
 
+public class AddToCart extends BaseTest{
 
+	@Test
+	public void addToCartFromStorePage() throws IOException {
+		Product product = new Product(1215);
+		CartPage cartPage = new StorePage(getDriver())
+				.load()
+				.clickAddToCartBtn(product.getName())
+				.clickViewCart();
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+	}
+}
 
 
 

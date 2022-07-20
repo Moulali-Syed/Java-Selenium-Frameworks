@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="org.selenium.factory.DriverManager"/>
     <fullyQualifiedTypeName name="org.selenium.pom.BaseTest"/>
     <fullyQualifiedTypeName name="org.selenium.pom.pages.CartPage"/>
-    <fullyQualifiedTypeName name="org.selenium.pom.base.BaseTest"/>
     <fullyQualifiedTypeName name="org.selenium.pom.base.BasePage"/>
     <fullyQualifiedTypeName name="org.selenium.pom.pages.CheckoutPage"/>
     <fullyQualifiedTypeName name="org.selenium.pom.objects.BillingAddress"/>
@@ -14,7 +13,6 @@
     <fullyQualifiedTypeName name="java.io.InputStream"/>
     <fullyQualifiedTypeName name="org.selenium.pom.utils.JacksonUtils"/>
     <fullyQualifiedTypeName name="org.selenium.pom.objects.Product"/>
-    <fullyQualifiedTypeName name="org.selenium.pom.objects.User"/>
     <fullyQualifiedTypeName name="java.time.Duration"/>
     <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.ExpectedConditions"/>
     <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.Select"/>
@@ -24,8 +22,22 @@
     <fullyQualifiedTypeName name="org.openqa.selenium.support.CacheLookup"/>
     <fullyQualifiedTypeName name="org.selenium.pom.constants.BrowserType"/>
     <fullyQualifiedTypeName name="org.testng.annotations.Parameters"/>
-    <fullyQualifiedTypeName name="java.util.Properties"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
     <fullyQualifiedTypeName name="java.io.FileReader"/>
+    <fullyQualifiedTypeName name="java.util.Properties"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.constants.EnvType"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.base.BaseTest"/>
+    <fullyQualifiedTypeName name="org.testng.annotations.Optional"/>
+    <fullyQualifiedTypeName name="io.restassured.http.Cookies"/>
+    <fullyQualifiedTypeName name="io.restassured.RestAssured"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.utils.ConfigLoader"/>
+    <fullyQualifiedTypeName name="io.restassured.response.Response"/>
+    <fullyQualifiedTypeName name="org.jsoup.Jsoup"/>
+    <fullyQualifiedTypeName name="org.jsoup.nodes.Document"/>
+    <fullyQualifiedTypeName name="org.jsoup.nodes.Element"/>
+    <fullyQualifiedTypeName name="org.selenium.pom.objects.User"/>
+    <fullyQualifiedTypeName name="io.restassured.http.Headers"/>
+    <fullyQualifiedTypeName name="io.restassured.http.Header"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

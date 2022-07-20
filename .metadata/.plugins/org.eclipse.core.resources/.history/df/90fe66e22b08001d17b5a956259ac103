@@ -1,0 +1,31 @@
+package org.selenium.pom.api.actions;
+
+
+import static io.restassured.RestAssured.*;
+
+import org.selenium.pom.utils.ConfigLoader;
+
+import io.restassured.http.Cookies;
+import io.restassured.response.Response;
+
+public class SignUpApi {
+
+	private Cookies cookies;
+	public Cookies getCookies() {
+		return cookies;
+	}
+	
+	private void getAccount() {
+		
+		
+		Response response = given().
+				baseUri(ConfigLoader.getInstance().getBaseUrl()).
+				cookies(getCookies()).
+		when(). 
+				get("/account").
+		then().
+				extract().
+				response();
+	}
+	
+}

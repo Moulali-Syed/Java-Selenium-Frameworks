@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="org.selenium.pom.tests.NaviagtionTest">
+      <class name="org.selenium.pom.tests.AddToCart">
         <methods>
-          <include name="NavigateFromHomeToStoreUisngMainMenu"/>
+          <include name="addToCartFromStorePage"/>
           <include name="startDriver"/>
           <include name="quitDriver"/>
         </methods>
-      </class> <!-- org.selenium.pom.tests.NaviagtionTest -->
+      </class> <!-- org.selenium.pom.tests.AddToCart -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -2,22 +2,22 @@
 <testng-results ignored="0" total="1" passed="0" failed="0" skipped="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-07-20T16:28:11 IST" name="Default suite" finished-at="2022-07-20T16:28:11 IST" duration-ms="81">
+  <suite started-at="2022-07-20T18:03:32 IST" name="Default suite" finished-at="2022-07-20T18:03:32 IST" duration-ms="89">
     <groups>
     </groups>
-    <test started-at="2022-07-20T16:28:11 IST" name="Default test" finished-at="2022-07-20T16:28:11 IST" duration-ms="81">
-      <class name="org.selenium.pom.tests.NaviagtionTest">
-        <test-method is-config="true" signature="startDriver(java.lang.String)[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="startDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658314691723" status="FAIL">
+    <test started-at="2022-07-20T18:03:32 IST" name="Default test" finished-at="2022-07-20T18:03:32 IST" duration-ms="89">
+      <class name="org.selenium.pom.tests.AddToCart">
+        <test-method is-config="true" signature="startDriver(java.lang.String)[pri:0, instance:org.selenium.pom.tests.AddToCart@35aea049]" started-at="2022-07-20T18:03:32 IST" name="startDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658320412537" status="FAIL">
           <exception class="org.testng.TestNGException">
             <message>
               <![CDATA[
 Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
-in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml]]>
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-793475029\testng-customsuite.xml]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.testng.TestNGException: 
 Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
-in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-793475029\testng-customsuite.xml
 at org.testng.internal.Parameters.createParams(Parameters.java:270)
 at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
 at org.testng.internal.Parameters.createParameters(Parameters.java:700)
@@ -53,17 +53,17 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startDriver -->
-        <test-method signature="NavigateFromHomeToStoreUisngMainMenu()[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="NavigateFromHomeToStoreUisngMainMenu" finished-at="2022-07-20T16:28:11 IST" duration-ms="0" status="SKIP">
+        <test-method signature="addToCartFromStorePage()[pri:0, instance:org.selenium.pom.tests.AddToCart@35aea049]" started-at="2022-07-20T18:03:32 IST" name="addToCartFromStorePage" finished-at="2022-07-20T18:03:32 IST" duration-ms="0" status="SKIP">
           <exception class="org.testng.TestNGException">
             <message>
               <![CDATA[
 Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
-in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml]]>
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-793475029\testng-customsuite.xml]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.testng.TestNGException: 
 Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
-in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-793475029\testng-customsuite.xml
 at org.testng.internal.Parameters.createParams(Parameters.java:270)
 at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
 at org.testng.internal.Parameters.createParameters(Parameters.java:700)
@@ -98,12 +98,12 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
           </exception> <!-- org.testng.TestNGException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- NavigateFromHomeToStoreUisngMainMenu -->
-        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="quitDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658314691750" status="SKIP">
+        </test-method> <!-- addToCartFromStorePage -->
+        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.pom.tests.AddToCart@35aea049]" started-at="2022-07-20T18:03:32 IST" name="quitDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658320412574" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quitDriver -->
-      </class> <!-- org.selenium.pom.tests.NaviagtionTest -->
+      </class> <!-- org.selenium.pom.tests.AddToCart -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

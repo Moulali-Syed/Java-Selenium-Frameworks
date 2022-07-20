@@ -1,0 +1,20 @@
+package org.selenium.pom.api.actions;
+
+import io.restassured.RestAssured;
+import static io.restassured.RestAssured.*;
+import io.restassured.http.Cookies;
+
+public class SignUpApi {
+
+	private Cookies cookies;
+	public Cookies getCookies() {
+		return cookies;
+	}
+	
+	private void getAccount() {
+		
+		RestAssured.baseURI = "";
+		given().
+	}
+	
+}
