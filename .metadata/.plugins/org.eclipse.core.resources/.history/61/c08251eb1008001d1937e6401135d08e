@@ -1,0 +1,7 @@
+package org.selenium.pom.utils;
+
+public class ConfigLoader {
+
+	private final Properties properties;
+	private static ConfigLoader configLoader;
+}

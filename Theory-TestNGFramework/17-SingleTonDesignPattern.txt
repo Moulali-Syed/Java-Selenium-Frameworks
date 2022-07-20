@@ -1,0 +1,127 @@
+now we have url , and user ids hardcoded , we can use config.properties file
+
+Config properties can be used for global variables that are required to be initialized only once and shared
+across the framework in our case the baseURL is global and currently user is also global
+
+==============================================================================================================
+create config properties:
+under resources package , create a file
+config.properties
+
+baseUrl=https://askomdch.com
+username=demouser987
+password=demouser987
+
+
+==============================================================================================================
+Reusable property loader utility:
+
+
+under utils package , create a PropertyUtils.java
+
+public class PropertyUtils {
+
+	public static Properties propertyLoader(String filePath) {
+		Properties properties = new Properties();
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+			try {
+				properties.load(reader);
+				reader.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException("failed to load properties file "+filePath);
+			}
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("properties file not found at "+filePath);
+		}
+		return properties;
+	}
+}
+
+
+
+
+==============================================================================================================
+
+
+in utils package,create a ConfigLoader.java file
+
+following SingleTonDesign Pattern
+
+
+package org.selenium.pom.utils;
+
+import java.util.Properties;
+
+public class ConfigLoader {
+
+	private final Properties properties;
+	//create a private static instance variable of class , of return type class --------------(1)
+	private static ConfigLoader configLoader;
+	
+	//only this class should be able to create its own instance, so make constructor as private------(2)
+	private ConfigLoader() {
+		properties = PropertyUtils.propertyLoader("src/test/java/resources/config.properties");
+	}
+	
+	//method to provide instance of this class------------------------------------------------(3)
+	public static ConfigLoader getInstance() {
+		if(configLoader == null) {
+			configLoader = new ConfigLoader();
+		}
+		return configLoader;
+	}
+	
+	
+	//creating methods to read from the config.properties file
+	public String getBaseUrl() {
+		String prop = properties.getProperty("baseUrl");
+		if(prop!=null) {
+			return prop;
+		}else {
+			
+			throw new RuntimeException("property baseUrl is not specified in the config.properties file");
+		}
+	}
+	
+	public String getUsername() {
+		String prop = properties.getProperty("username");
+		if(prop!=null) {
+			return prop;
+		}else {
+			
+			throw new RuntimeException("property username is not specified in the config.properties file");
+		}
+	}
+	
+	public String getPassword() {
+		String prop = properties.getProperty("password");
+		if(prop!=null) {
+			return prop;
+		}else {
+			
+			throw new RuntimeException("property password is not specified in the config.properties file");
+		}
+	}
+}
+
+==============================================================================================================
+
+Remove hardcoded global properties:
+
+1.go to BasePage and remove hardcoding for the url
+
+	public void load(String endPoint) {
+		driver.get(ConfigLoader.getInstance().getBaseUrl() + endPoint);
+	}
+
+2.in the test method , pass username password from config properties file
+
+	User user = new User(ConfigLoader.getInstance().getUsername(),ConfigLoader.getInstance().getPassword());
+
+
+
+==============================================================================================================

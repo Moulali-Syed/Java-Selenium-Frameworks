@@ -24,4 +24,8 @@
     <fullyQualifiedTypeName name="org.openqa.selenium.support.CacheLookup"/>
     <fullyQualifiedTypeName name="org.selenium.pom.constants.BrowserType"/>
     <fullyQualifiedTypeName name="org.testng.annotations.Parameters"/>
+    <fullyQualifiedTypeName name="java.util.Properties"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+    <fullyQualifiedTypeName name="java.io.FileReader"/>
 </qualifiedTypeNameHistroy>

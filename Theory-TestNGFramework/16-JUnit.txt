@@ -1,0 +1,63 @@
+JUnit:
+JUnit - No ThreadLocal
+typically used by developers
+=====================================================================================================================
+
+Junit 4 vs junit 5
+
+
+refer the link : **************** howtodoinjava.com/junit5/junit-5-vs-junit-4/  ****************
+junit 4 - is used more because its quite old
+
+
+=====================================================================================================================
+junit4 Integration:
+
+add the dependency Junit4
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+test must be there in the testcase class name
+
+use @Test from junit
+and Assert.assertEquals(expected,actual) in junit
+
+instead of @BeforeMethod, @AfterMethod use @Before ,@After of Junit4
+
+we dont need ThreadLocal
+=====================================================================================================================
+to run thru cmd , using maven 
+we can remove the configuration from surefire plugin and run it
+
+=====================================================================================================================
+Execute Junit4 tests in parallel
+
+use maven surefire plugin , with configuration
+
+				<configuration>
+					<parallel>methods</parallel>
+					<threadCount>2</threadCount>
+				</configuration>
+
+mvn clean test -Dbrowser=CHROME
+=====================================================================================================================
+
+Junit 5
+
+add JUnit Jupiter engine dependency
+maven.apache.org/surefire/maven-surefire-plugin/examples/juni-platform.html  - refer this link for dependency
+
+use @BeforeEach , @AfterEach -- instead of @BeforeMethod ,@AfterMethod of testng
+and change the assert
+Assertions.assertEquals("","");
+
+
+
+now run thru
+cmd
+mvn clean test -Dbrowser=CHROME

@@ -1,0 +1,65 @@
+end to end tests:
+too many things
+blocks functionality
+Duplication
+Late feedback
+unreliable
+high execution time
+
+Shared test data:
+same user
+
+
+Solution:
+
+	navigate 			Search 			AddToCart		Login			Checkout			Order
+
+E2E1
+
+E2E2
+E2E3
+E2E4
+E2E5
+
+			test1	
+							test2
+			
+											test3
+														test4		
+																	test5
+
+
+instead of end to end tests , we can have the atomic tests, for suppose to check the checkout functionality , we can get the product and logged in the user using an api
+call thus reduce the ui interactions
+
+Navigation
+NavigateFromHomeToStoreUsingMainMenu
+NavigateFromStoreToProductPage
+NavigateFromHomeToFeaturedProductPage
+
+
+Search
+SearchWithPartialMatch
+SearchWithExactMatch
+SearchNonExistingProduct
+
+
+AddToCart
+AddToCartFromStorePage
+AddFeaturedProductToCart
+AddToCartFromProductPage
+
+
+Login
+LoginDuringCheckout
+LoginFails
+
+
+Checkout
+GuestCheckoutUsingDirectBankTransfer
+LoginAndCheckoutUsingDirectBankTransfer
+GuestCheckoutUsingCashOnDelivery
+LoginAndCheckoutUsingCashOnDelivery
+
+
+								

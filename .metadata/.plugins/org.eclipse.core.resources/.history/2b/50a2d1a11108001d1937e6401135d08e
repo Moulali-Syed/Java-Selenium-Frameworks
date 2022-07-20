@@ -1,0 +1,34 @@
+package org.selenium.pom.utils;
+
+import java.util.Properties;
+
+public class ConfigLoader {
+
+	private final Properties properties;
+	//create a private static instance variable of class , of return type class --------------(1)
+	private static ConfigLoader configLoader;
+	
+	//only this class should be able to create its own instance, so make constructor as private------(2)
+	private ConfigLoader() {
+		properties = PropertyUtils.propertyLoader("src/test/java/resources/config.properties");
+	}
+	
+	//method to provide instance of this class------------------------------------------------(3)
+	public ConfigLoader getInstance() {
+		if(configLoader == null) {
+			configLoader = new ConfigLoader();
+		}
+		return configLoader;
+	}
+	
+	
+	public String getBaseUrl() {
+		String prop = properties.getProperty("baseUrl");
+		if(prop!=null) {
+			return prop;
+		}else {
+			
+			throw new RuntimeException("property baseUrl is not specified in the config.properties file")
+		}
+	}
+}

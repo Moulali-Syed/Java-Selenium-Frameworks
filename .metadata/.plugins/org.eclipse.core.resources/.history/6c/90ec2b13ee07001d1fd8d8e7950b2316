@@ -1,0 +1,36 @@
+package org.selenium.pom.base;
+
+import org.openqa.selenium.WebDriver;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.selenium.pom.factory.*;
+public class BaseTest {
+
+	//data hiding -encapsulation , we r providing protected access modifier , so that only the class that inherit BaseTest can access the driver
+	private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+	//no body else should be able to set the browser , so make it private
+	private void setDriver(WebDriver driver) {
+		//every thread will get a local copy of this thread, there will be no conflict
+		this.driver.set(driver);
+	}
+	
+	//to make it accessible only in inherited classes
+	protected WebDriver getDriver() {
+		return this.driver.get();
+	}
+	@Parameters("browser")
+	@BeforeMethod
+	public void startDriver(String browser) {
+		//use the setter method to set driver instance
+		setDriver(new DriverManager().initializeDriver(browser));
+	}
+
+	@AfterMethod
+	public void quitDriver() {
+		//use getter method to quit the required instance of driver
+		getDriver().quit();
+	}
+}

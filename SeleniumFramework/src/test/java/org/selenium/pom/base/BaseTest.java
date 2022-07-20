@@ -9,16 +9,31 @@ import org.selenium.pom.factory.*;
 public class BaseTest {
 
 	//data hiding -encapsulation , we r providing protected access modifier , so that only the class that inherit BaseTest can access the driver
-	protected WebDriver driver;
+	private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
+	//no body else should be able to set the browser , so make it private
+	private void setDriver(WebDriver driver) {
+		//every thread will get a local copy of this thread, there will be no conflict
+		this.driver.set(driver);
+	}
+	
+	//to make it accessible only in inherited classes
+	protected WebDriver getDriver() {
+		return this.driver.get();
+	}
 	@Parameters("browser")
 	@BeforeMethod
 	public void startDriver(String browser) {
-		driver = new DriverManager().initializeDriver(browser);
+		//use the setter method to set driver instance
+		setDriver(new DriverManager().initializeDriver(browser));
+		System.out.println("Current Thread: "+Thread.currentThread().getId() + ","+" Driver = "+getDriver());
 	}
 
 	@AfterMethod
-	public void quitDriver() {
-		driver.quit();
+	public void quitDriver() throws InterruptedException {
+		//use getter method to quit the required instance of driver
+		Thread.sleep(100);
+		System.out.println("Current Thread: "+Thread.currentThread().getId() + ","+" Driver = "+getDriver());	
+		getDriver().quit();
 	}
 }

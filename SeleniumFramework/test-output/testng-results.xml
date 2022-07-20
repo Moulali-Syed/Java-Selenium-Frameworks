@@ -1,43 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="2" total="3" passed="0" failed="1" skipped="0">
+<testng-results ignored="0" total="1" passed="0" failed="0" skipped="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-07-19T19:45:40 IST" name="Default suite" finished-at="2022-07-19T19:46:00 IST" duration-ms="19283">
+  <suite started-at="2022-07-20T16:28:11 IST" name="Default suite" finished-at="2022-07-20T16:28:11 IST" duration-ms="81">
     <groups>
     </groups>
-    <test started-at="2022-07-19T19:45:40 IST" name="Default test" finished-at="2022-07-19T19:46:00 IST" duration-ms="19283">
-      <class name="org.selenium.MyFirstTestCase">
-        <test-method is-config="true" signature="startDriver()[pri:0, instance:org.selenium.MyFirstTestCase@2fb3536e]" started-at="2022-07-19T19:45:40 IST" name="startDriver" finished-at="2022-07-19T19:45:44 IST" duration-ms="3158" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- startDriver -->
-        <test-method signature="guestCheckoutUsingDirectBankTransfer1()[pri:0, instance:org.selenium.MyFirstTestCase@2fb3536e]" started-at="2022-07-19T19:45:44 IST" name="guestCheckoutUsingDirectBankTransfer1" finished-at="2022-07-19T19:45:59 IST" duration-ms="15801" status="FAIL">
-          <exception class="org.openqa.selenium.TimeoutException">
+    <test started-at="2022-07-20T16:28:11 IST" name="Default test" finished-at="2022-07-20T16:28:11 IST" duration-ms="81">
+      <class name="org.selenium.pom.tests.NaviagtionTest">
+        <test-method is-config="true" signature="startDriver(java.lang.String)[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="startDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658314691723" status="FAIL">
+          <exception class="org.testng.TestNGException">
             <message>
-              <![CDATA[Expected condition failed: waiting for title to contain "AskOmDch". Current title: "" (tried for 15 second(s) with 500 milliseconds interval)
-Build info: version: '4.1.4', revision: '535d840ee2'
-System info: host: 'DESKTOP-5MGC367', ip: '192.168.100.7', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 103.0.5060.114, chrome: {chromedriverVersion: 103.0.5060.53 (a1711811edd7..., userDataDir: C:\Users\MOULALI\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:51058}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:51058/devtoo..., se:cdpVersion: 103.0.5060.114, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: ec5092aefdd0db913da956ef297fb731]]>
+              <![CDATA[
+Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml]]>
             </message>
             <full-stacktrace>
-              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for title to contain "AskOmDch". Current title: "" (tried for 15 second(s) with 500 milliseconds interval)
-Build info: version: '4.1.4', revision: '535d840ee2'
-System info: host: 'DESKTOP-5MGC367', ip: '192.168.100.7', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 103.0.5060.114, chrome: {chromedriverVersion: 103.0.5060.53 (a1711811edd7..., userDataDir: C:\Users\MOULALI\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:51058}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:51058/devtoo..., se:cdpVersion: 103.0.5060.114, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: ec5092aefdd0db913da956ef297fb731
-at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:87)
-at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
-at org.selenium.pom.pages.HomePage.load(HomePage.java:16)
-at org.selenium.MyFirstTestCase.guestCheckoutUsingDirectBankTransfer1(MyFirstTestCase.java:68)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+              <![CDATA[org.testng.TestNGException: 
+Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml
+at org.testng.internal.Parameters.createParams(Parameters.java:270)
+at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
+at org.testng.internal.Parameters.createParameters(Parameters.java:700)
+at org.testng.internal.Parameters.createConfigurationParameters(Parameters.java:168)
+at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+at org.testng.internal.TestInvoker.runConfigMethods(TestInvoker.java:700)
+at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:527)
 at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
 at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
 at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
@@ -62,15 +49,61 @@ at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 ]]>
             </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.TimeoutException -->
+          </exception> <!-- org.testng.TestNGException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- guestCheckoutUsingDirectBankTransfer1 -->
-        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.MyFirstTestCase@2fb3536e]" started-at="2022-07-19T19:45:59 IST" name="quitDriver" finished-at="2022-07-19T19:46:00 IST" duration-ms="273" status="PASS">
+        </test-method> <!-- startDriver -->
+        <test-method signature="NavigateFromHomeToStoreUisngMainMenu()[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="NavigateFromHomeToStoreUisngMainMenu" finished-at="2022-07-20T16:28:11 IST" duration-ms="0" status="SKIP">
+          <exception class="org.testng.TestNGException">
+            <message>
+              <![CDATA[
+Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.testng.TestNGException: 
+Parameter 'browser' is required by BeforeMethod on method startDriver but has not been marked @Optional or defined
+in C:\Users\MOULALI\AppData\Local\Temp\testng-eclipse-853733419\testng-customsuite.xml
+at org.testng.internal.Parameters.createParams(Parameters.java:270)
+at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
+at org.testng.internal.Parameters.createParameters(Parameters.java:700)
+at org.testng.internal.Parameters.createConfigurationParameters(Parameters.java:168)
+at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+at org.testng.internal.TestInvoker.runConfigMethods(TestInvoker.java:700)
+at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:527)
+at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
+at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
+at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
+at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
+at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.testng.TestRunner.privateRun(TestRunner.java:794)
+at org.testng.TestRunner.run(TestRunner.java:596)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+at org.testng.TestNG.runSuites(TestNG.java:1063)
+at org.testng.TestNG.run(TestNG.java:1031)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.testng.TestNGException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- NavigateFromHomeToStoreUisngMainMenu -->
+        <test-method is-config="true" signature="quitDriver()[pri:0, instance:org.selenium.pom.tests.NaviagtionTest@611889f4]" started-at="2022-07-20T16:28:11 IST" name="quitDriver" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1658314691750" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quitDriver -->
-      </class> <!-- org.selenium.MyFirstTestCase -->
+      </class> <!-- org.selenium.pom.tests.NaviagtionTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

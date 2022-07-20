@@ -11,6 +11,7 @@ import org.selenium.pom.pages.CartPage;
 import org.selenium.pom.pages.CheckoutPage;
 import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
+import org.selenium.pom.utils.ConfigLoader;
 import org.selenium.pom.utils.JacksonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -40,7 +41,7 @@ public class MyFirstTestCase extends BaseTest {
 		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
 		Product product = new Product(1215);
 
-		HomePage homePage = new HomePage(driver).load(); //-------------------<
+		HomePage homePage = new HomePage(getDriver()).load(); //-------------------<
 		StorePage storePage = homePage.navigateToStoreUsingMenu();
 		storePage.isLoaded(); //-------------------<
 		storePage.search(searchFor);
@@ -65,7 +66,7 @@ public class MyFirstTestCase extends BaseTest {
 		// using jacksonUtils
 		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json", BillingAddress.class);
 
-		StorePage storePage = new HomePage(driver).load().navigateToStoreUsingMenu().search("Blue");
+		StorePage storePage = new HomePage(getDriver()).load().navigateToStoreUsingMenu().search("Blue");
 
 		Assert.assertEquals(storePage.getTitle(), "Search results: “Blue”");
 		storePage.clickAddToCartBtn("Blue Shoes");
@@ -87,10 +88,10 @@ public class MyFirstTestCase extends BaseTest {
 		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
 		Product product = new Product(1215);
 		
-		User user = new User("demouser987","demouser987");
+		User user = new User(ConfigLoader.getInstance().getUsername(),ConfigLoader.getInstance().getPassword());
 		
 		
-		HomePage homePage = new HomePage(driver).load();
+		HomePage homePage = new HomePage(getDriver()).load();
 		StorePage storePage = homePage.navigateToStoreUsingMenu();
 
 		storePage.search("Blue");

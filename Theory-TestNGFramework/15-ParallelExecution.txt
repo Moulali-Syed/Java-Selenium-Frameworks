@@ -1,0 +1,150 @@
+Parallel Execution:
+
+Important Principles , it is ideal to run the automation project in parallel way
+
+1.Independent tests
+2.no testng priorities
+3.avoid instance variables
+4.stateless methods
+5.no driver sharing
+6.no sharing of data or state
+7.avoid static variables
+
+=====================================================================================================================
+Why ThreadLocal?
+
+in order to support parallel execution , using testng we need to use ThreadLocal for driver instance because we have defined
+it at class level
+
+if we go to the BaseTest , the driver instance is at class level
+if we run the tests in parallel because of shared instance the tests will be failed
+
+
+=====================================================================================================================
+update code to support parallel execution
+
+change the BaseTest class
+
+public class BaseTest {
+
+	//data hiding -encapsulation , we r providing protected access modifier , so that only the class that inherit BaseTest can access the driver
+	private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+	//no body else should be able to set the browser , so make it private
+	private void setDriver(WebDriver driver) {
+		//every thread will get a local copy of this thread, there will be no conflict
+		this.driver.set(driver);
+	}
+	
+	//to make it accessible only in inherited classes
+	protected WebDriver getDriver() {
+		return this.driver.get();
+	}
+	@Parameters("browser")
+	@BeforeMethod
+	public void startDriver(String browser) {
+		//use the setter method to set driver instance
+		setDriver(new DriverManager().initializeDriver(browser));
+		System.out.println("Current Thread: "+Thread.currentThread().getId() + ","+" Driver = "+getDriver());
+	}
+
+	@AfterMethod
+	public void quitDriver() throws InterruptedException {
+		//use getter method to quit the required instance of driver
+		Thread.sleep(100);
+		System.out.println("Current Thread: "+Thread.currentThread().getId() + ","+" Driver = "+getDriver());	
+		getDriver().quit();
+	}
+}
+
+
+
+and use the get method to access driver in the testcase
+
+
+	@Test
+	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException, IOException {
+
+		String searchFor = "Blue";
+		//now we have generalized the deserializejson method we can write below code
+		BillingAddress billingAddress = JacksonUtils.deserializeJson("\\resources\\myBillingAddress.json",BillingAddress.class);
+		Product product = new Product(1215);
+
+		HomePage homePage = new HomePage(getDriver()).load(); <-------------------*******-----------------------
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+		storePage.isLoaded(); 
+		storePage.search(searchFor);
+
+		Assert.assertEquals(storePage.getTitle(), "Search results: “"+searchFor+"”");
+		storePage.clickAddToCartBtn(product.getName());
+		Thread.sleep(4000);
+		CartPage cartPage = storePage.clickViewCart();
+		cartPage.isLoaded(); 
+		Assert.assertEquals(cartPage.getProductName(), product.getName());
+
+		CheckoutPage checkoutPage = cartPage.checkout().setBillingAddress(billingAddress).placeOrder();
+
+		Thread.sleep(5000);
+		Assert.assertEquals(checkoutPage.getNotice(), "Thank you. Your order has been received.");
+
+	}
+=====================================================================================================================
+Drive parallel using maven surefire plugin:
+
+instead of using the testng.xml file , we can run our tests in parallel by using the plugin below
+by default testng , provides 5 threads , if we need more threads then use threadCount and specify a number
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M7</version>
+        <configuration>
+          <parallel>methods</parallel>
+          <threadCount>10</threadCount>
+        </configuration>
+      </plugin>
+
+
+now in cmd
+mvn clean test -Dbrowser=CHROME
+=====================================================================================================================
+
+Drive parallel using TestNG
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests" thread-count="2">
+	<test name="Firefox" thread-count="2" parallel="methods">
+		<parameter name="browser" value="FIREFOX"></parameter>
+		<classes>
+			<class name="org.selenium.pom.tests.MyFirstTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="Chrome" thread-count="2" parallel="methods">
+		<parameter name="browser" value="CHROME"></parameter>
+		<classes>
+			<class name="org.selenium.pom.tests.MyFirstTestCase" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->
+
+
+and use the maven surefire plugin
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+=====================================================================================================================

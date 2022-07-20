@@ -22,6 +22,11 @@ public class StorePage extends BasePage {
 		return this;
 	}
 	
+	public StorePage load() {
+		load("/store");
+		return this;
+	}
+	
 	public Boolean isLoaded() {
 		return wait.until(ExpectedConditions.urlContains("/store"));
 	}

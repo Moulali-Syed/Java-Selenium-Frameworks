@@ -1,0 +1,47 @@
+Understanding API flows:
+
+We must know whether the login authentication mechanism
+whether it is Token based or sessionbased
+
+whether api are json or html format
+authentication is based on OAuth 2.0 or something else
+
+
+the app we r using now is session based , when user logins then the session is stored in server and the browser cookies
+
+
+RestAssured - Api requests
+Groovy/JSoup - Parse HTML
+==============================================================================================================================
+inside tests package 
+create a class - NaviagtionTest
+
+public class NaviagtionTest extends BaseTest {
+
+	@Test
+	public void NavigateFromHomeToStoreUisngMainMenu() {
+
+		HomePage homePage = new HomePage(getDriver()).load();
+		StorePage storePage = homePage.navigateToStoreUsingMenu();
+
+		Assert.assertEquals(storePage.getTitle(), "Store");
+	}
+
+}
+==============================================================================================================================
+
+create a class SearchTest
+
+
+
+
+
+==============================================================================================================================
+
+
+
+
+
+
+
+==============================================================================================================================
