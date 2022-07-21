@@ -1,0 +1,68 @@
+LoginTest
+
+public class LoginTest {
+
+	@Test
+	public void loginDuringCheckout() throws IOException {
+		String username = "demouser" + new FakerUtils().generateRandomNumber();
+		User user = new User().setUsername(username).setPassword("demopwd").setEmail(username + "@askomdch.com");
+
+		SignUpApi signupAPi = new SignUpApi();
+		signupAPi.register(user);
+
+		CartApi cartApi = new CartApi();
+		Product product = new Product(1215);
+		cartApi.addToCart(product.getId(), 1);
+
+	}
+}
+
+
+
+======================================================================================================================================================
+
+Convert Rest assured cookies to Selenium Cookies:
+
+in utils pacakge create a class CookeUtils
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.Cookie;
+
+import io.restassured.http.Cookies;
+
+public class CookieUtils {
+
+	public List<Cookie> convertRestAssuredCookiesToSeleniumCookies(Cookies cookies) {
+		List<io.restassured.http.Cookie> restAssuredCookies = new ArrayList<>();
+		restAssuredCookies = cookies.asList();
+		List<Cookie> seleniumCookies = new ArrayList<>();
+
+		for (io.restassured.http.Cookie cookie : restAssuredCookies) {
+			seleniumCookies.add(new Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(),
+					cookie.getExpiryDate(), cookie.isSecured(), cookie.isHttpOnly(), cookie.getSameSite()));
+
+		}
+		return seleniumCookies;
+	}
+}
+
+======================================================================================================================================================
+Inject cookies to browser:
+inside BaseTest class create a method
+
+	public void injectCookiesToBrowser(Cookies cookies) {
+		List<Cookie> seleniumCookies = new CookieUtils().convertRestAssuredCookiesToSeleniumCookies(cookies);
+		
+		for(Cookie cookie: seleniumCookies) {
+			getDriver().manage().addCookie(cookie);
+		}
+	}
+
+======================================================================================================================================================
+
+Run Tests in parallel:
+
+using testng , by mentioning threadcount 

@@ -34,6 +34,7 @@ public class CheckoutPage extends BasePage {
 	private final By overlay = By.cssSelector(".blockUI.blockOverlay");
 	private final By countryDropDown = By.id("billing_country");
 	private final By stateDropdown  = By.id("billing_state");
+	private final By productName = By.cssSelector("");
 	
 	public CheckoutPage enterFirstName(String firstName) {
 		WebElement e = getElement(firstnameFld);
@@ -45,6 +46,11 @@ public class CheckoutPage extends BasePage {
 
 	public CheckoutPage enterLastName(String lastName) {
 		driver.findElement(lastNameFld).sendKeys(lastName);
+		return this;
+	}
+	
+	public CheckoutPage load() {
+		load("/checkout");
 		return this;
 	}
 	
@@ -125,5 +131,9 @@ public class CheckoutPage extends BasePage {
 		.selectState(billingAddress.getCity())
 		.enterPostCode(billingAddress.getPostalCode())
 		.enterEmail(billingAddress.getEmail());
+	}
+	
+	public String getProductName() {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(productName)).getText();
 	}
 }

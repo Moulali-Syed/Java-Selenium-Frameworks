@@ -1,0 +1,22 @@
+package org.selenium.pom.tests;
+
+import org.selenium.pom.api.actions.SignUpApi;
+import org.selenium.pom.objects.User;
+import org.selenium.pom.utils.FakerUtils;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+
+	@Test
+	public void loginDuringCheckout() {
+		String username = "demouser" + new FakerUtils().generateRandomNumber();
+		User user = new User().
+				setUsername(username).
+				setPassword("demopwd").
+				setEmail(username+"@askomdch.com");
+		
+		SignUpApi signupAPi = new SIgnUpAPi();
+		signupAPi.register(user);
+				
+	}
+}

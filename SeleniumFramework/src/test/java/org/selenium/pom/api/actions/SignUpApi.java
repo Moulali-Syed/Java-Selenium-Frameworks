@@ -57,10 +57,10 @@ public class SignUpApi {
 	}
 	
 	
-	private Response register(User user) {
+	public Response register(User user) {
 		Cookies cookies = new Cookies();
 		
-		Header header = new Header("Content-Type","application/x-www-form-urlencoded");
+		Header header = new Header("content-type","application/x-www-form-urlencoded");
 		Headers headers = new Headers(header);
 		
 		HashMap<String,String> formParams = new HashMap<>();
@@ -73,7 +73,7 @@ public class SignUpApi {
 		Response response = given().
 				baseUri(ConfigLoader.getInstance().getBaseUrl()).
 				headers(headers). 
-				body(formParams).
+				formParams(formParams).
 				cookies(cookies).
 				log().all().
 		when(). 
@@ -87,6 +87,7 @@ public class SignUpApi {
 			throw new RuntimeException("Failed to register the account, HTTP status code: "+response.getStatusCode());
 		}
 		
+		this.cookies = response.getDetailedCookies();
 		return response;
 	}
 	

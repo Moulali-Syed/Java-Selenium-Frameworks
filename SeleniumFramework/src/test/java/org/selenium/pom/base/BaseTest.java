@@ -1,12 +1,17 @@
 package org.selenium.pom.base;
 
-import org.openqa.selenium.WebDriver;
+import java.util.List;
 
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.selenium.pom.factory.DriverManager;
+import org.selenium.pom.utils.CookieUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import org.selenium.pom.factory.*;
+
+import io.restassured.http.Cookies;
 public class BaseTest {
 
 	//data hiding -encapsulation , we r providing protected access modifier , so that only the class that inherit BaseTest can access the driver
@@ -37,5 +42,13 @@ public class BaseTest {
 		Thread.sleep(100);
 		System.out.println("Current Thread: "+Thread.currentThread().getId() + ","+" Driver = "+getDriver());	
 		getDriver().quit();
+	}
+	
+	public void injectCookiesToBrowser(Cookies cookies) {
+		List<Cookie> seleniumCookies = new CookieUtils().convertRestAssuredCookiesToSeleniumCookies(cookies);
+		
+		for(Cookie cookie: seleniumCookies) {
+			getDriver().manage().addCookie(cookie);
+		}
 	}
 }
